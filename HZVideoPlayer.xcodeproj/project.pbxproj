@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EE510CC320FE186B002EC0DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CC220FE186B002EC0DF /* AppDelegate.m */; };
+		EE510CC620FE186B002EC0DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CC520FE186B002EC0DF /* ViewController.m */; };
+		EE510CC920FE186B002EC0DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE510CC720FE186B002EC0DF /* Main.storyboard */; };
+		EE510CCB20FE186B002EC0DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE510CCA20FE186B002EC0DF /* Assets.xcassets */; };
+		EE510CCE20FE186B002EC0DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE510CCC20FE186B002EC0DF /* LaunchScreen.storyboard */; };
+		EE510CD120FE186B002EC0DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CD020FE186B002EC0DF /* main.m */; };
+		EE510CDB20FE186B002EC0DF /* HZVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CDA20FE186B002EC0DF /* HZVideoPlayerTests.m */; };
+		EE510CE620FE186B002EC0DF /* HZVideoPlayerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CE520FE186B002EC0DF /* HZVideoPlayerUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EE510CD720FE186B002EC0DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE510CB620FE186B002EC0DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE510CBD20FE186B002EC0DF;
+			remoteInfo = HZVideoPlayer;
+		};
+		EE510CE220FE186B002EC0DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EE510CB620FE186B002EC0DF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE510CBD20FE186B002EC0DF;
+			remoteInfo = HZVideoPlayer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EE510CBE20FE186B002EC0DF /* HZVideoPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HZVideoPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE510CC120FE186B002EC0DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EE510CC220FE186B002EC0DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EE510CC420FE186B002EC0DF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		EE510CC520FE186B002EC0DF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EE510CC820FE186B002EC0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EE510CCA20FE186B002EC0DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE510CCD20FE186B002EC0DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EE510CCF20FE186B002EC0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE510CD020FE186B002EC0DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EE510CD620FE186B002EC0DF /* HZVideoPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HZVideoPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE510CDA20FE186B002EC0DF /* HZVideoPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVideoPlayerTests.m; sourceTree = "<group>"; };
+		EE510CDC20FE186B002EC0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE510CE120FE186B002EC0DF /* HZVideoPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HZVideoPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE510CE520FE186B002EC0DF /* HZVideoPlayerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVideoPlayerUITests.m; sourceTree = "<group>"; };
+		EE510CE720FE186B002EC0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE510CBB20FE186B002EC0DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CD320FE186B002EC0DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CDE20FE186B002EC0DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE510CB520FE186B002EC0DF = {
+			isa = PBXGroup;
+			children = (
+				EE510CC020FE186B002EC0DF /* HZVideoPlayer */,
+				EE510CD920FE186B002EC0DF /* HZVideoPlayerTests */,
+				EE510CE420FE186B002EC0DF /* HZVideoPlayerUITests */,
+				EE510CBF20FE186B002EC0DF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EE510CBF20FE186B002EC0DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE510CBE20FE186B002EC0DF /* HZVideoPlayer.app */,
+				EE510CD620FE186B002EC0DF /* HZVideoPlayerTests.xctest */,
+				EE510CE120FE186B002EC0DF /* HZVideoPlayerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE510CC020FE186B002EC0DF /* HZVideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				EE510CC120FE186B002EC0DF /* AppDelegate.h */,
+				EE510CC220FE186B002EC0DF /* AppDelegate.m */,
+				EE510CC420FE186B002EC0DF /* ViewController.h */,
+				EE510CC520FE186B002EC0DF /* ViewController.m */,
+				EE510CC720FE186B002EC0DF /* Main.storyboard */,
+				EE510CCA20FE186B002EC0DF /* Assets.xcassets */,
+				EE510CCC20FE186B002EC0DF /* LaunchScreen.storyboard */,
+				EE510CCF20FE186B002EC0DF /* Info.plist */,
+				EE510CD020FE186B002EC0DF /* main.m */,
+			);
+			path = HZVideoPlayer;
+			sourceTree = "<group>";
+		};
+		EE510CD920FE186B002EC0DF /* HZVideoPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				EE510CDA20FE186B002EC0DF /* HZVideoPlayerTests.m */,
+				EE510CDC20FE186B002EC0DF /* Info.plist */,
+			);
+			path = HZVideoPlayerTests;
+			sourceTree = "<group>";
+		};
+		EE510CE420FE186B002EC0DF /* HZVideoPlayerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EE510CE520FE186B002EC0DF /* HZVideoPlayerUITests.m */,
+				EE510CE720FE186B002EC0DF /* Info.plist */,
+			);
+			path = HZVideoPlayerUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE510CBD20FE186B002EC0DF /* HZVideoPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE510CEA20FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayer" */;
+			buildPhases = (
+				EE510CBA20FE186B002EC0DF /* Sources */,
+				EE510CBB20FE186B002EC0DF /* Frameworks */,
+				EE510CBC20FE186B002EC0DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HZVideoPlayer;
+			productName = HZVideoPlayer;
+			productReference = EE510CBE20FE186B002EC0DF /* HZVideoPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE510CD520FE186B002EC0DF /* HZVideoPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE510CED20FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayerTests" */;
+			buildPhases = (
+				EE510CD220FE186B002EC0DF /* Sources */,
+				EE510CD320FE186B002EC0DF /* Frameworks */,
+				EE510CD420FE186B002EC0DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE510CD820FE186B002EC0DF /* PBXTargetDependency */,
+			);
+			name = HZVideoPlayerTests;
+			productName = HZVideoPlayerTests;
+			productReference = EE510CD620FE186B002EC0DF /* HZVideoPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EE510CE020FE186B002EC0DF /* HZVideoPlayerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE510CF020FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayerUITests" */;
+			buildPhases = (
+				EE510CDD20FE186B002EC0DF /* Sources */,
+				EE510CDE20FE186B002EC0DF /* Frameworks */,
+				EE510CDF20FE186B002EC0DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EE510CE320FE186B002EC0DF /* PBXTargetDependency */,
+			);
+			name = HZVideoPlayerUITests;
+			productName = HZVideoPlayerUITests;
+			productReference = EE510CE120FE186B002EC0DF /* HZVideoPlayerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE510CB620FE186B002EC0DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = huangzhenyu;
+				TargetAttributes = {
+					EE510CBD20FE186B002EC0DF = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					EE510CD520FE186B002EC0DF = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EE510CBD20FE186B002EC0DF;
+					};
+					EE510CE020FE186B002EC0DF = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EE510CBD20FE186B002EC0DF;
+					};
+				};
+			};
+			buildConfigurationList = EE510CB920FE186B002EC0DF /* Build configuration list for PBXProject "HZVideoPlayer" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE510CB520FE186B002EC0DF;
+			productRefGroup = EE510CBF20FE186B002EC0DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE510CBD20FE186B002EC0DF /* HZVideoPlayer */,
+				EE510CD520FE186B002EC0DF /* HZVideoPlayerTests */,
+				EE510CE020FE186B002EC0DF /* HZVideoPlayerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE510CBC20FE186B002EC0DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE510CCE20FE186B002EC0DF /* LaunchScreen.storyboard in Resources */,
+				EE510CCB20FE186B002EC0DF /* Assets.xcassets in Resources */,
+				EE510CC920FE186B002EC0DF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CD420FE186B002EC0DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CDF20FE186B002EC0DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE510CBA20FE186B002EC0DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE510CC620FE186B002EC0DF /* ViewController.m in Sources */,
+				EE510CD120FE186B002EC0DF /* main.m in Sources */,
+				EE510CC320FE186B002EC0DF /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CD220FE186B002EC0DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE510CDB20FE186B002EC0DF /* HZVideoPlayerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE510CDD20FE186B002EC0DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE510CE620FE186B002EC0DF /* HZVideoPlayerUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE510CD820FE186B002EC0DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE510CBD20FE186B002EC0DF /* HZVideoPlayer */;
+			targetProxy = EE510CD720FE186B002EC0DF /* PBXContainerItemProxy */;
+		};
+		EE510CE320FE186B002EC0DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE510CBD20FE186B002EC0DF /* HZVideoPlayer */;
+			targetProxy = EE510CE220FE186B002EC0DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EE510CC720FE186B002EC0DF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE510CC820FE186B002EC0DF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EE510CCC20FE186B002EC0DF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE510CCD20FE186B002EC0DF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EE510CE820FE186B002EC0DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EE510CE920FE186B002EC0DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EE510CEB20FE186B002EC0DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE510CEC20FE186B002EC0DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EE510CEE20FE186B002EC0DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HZVideoPlayer.app/HZVideoPlayer";
+			};
+			name = Debug;
+		};
+		EE510CEF20FE186B002EC0DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HZVideoPlayer.app/HZVideoPlayer";
+			};
+			name = Release;
+		};
+		EE510CF120FE186B002EC0DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HZVideoPlayer;
+			};
+			name = Debug;
+		};
+		EE510CF220FE186B002EC0DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HZVideoPlayerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HZVideoPlayer;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE510CB920FE186B002EC0DF /* Build configuration list for PBXProject "HZVideoPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE510CE820FE186B002EC0DF /* Debug */,
+				EE510CE920FE186B002EC0DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE510CEA20FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE510CEB20FE186B002EC0DF /* Debug */,
+				EE510CEC20FE186B002EC0DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE510CED20FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE510CEE20FE186B002EC0DF /* Debug */,
+				EE510CEF20FE186B002EC0DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE510CF020FE186B002EC0DF /* Build configuration list for PBXNativeTarget "HZVideoPlayerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE510CF120FE186B002EC0DF /* Debug */,
+				EE510CF220FE186B002EC0DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EE510CB620FE186B002EC0DF /* Project object */;
+}
