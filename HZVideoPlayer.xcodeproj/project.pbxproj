@@ -15,6 +15,10 @@
 		EE510CD120FE186B002EC0DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CD020FE186B002EC0DF /* main.m */; };
 		EE510CDB20FE186B002EC0DF /* HZVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CDA20FE186B002EC0DF /* HZVideoPlayerTests.m */; };
 		EE510CE620FE186B002EC0DF /* HZVideoPlayerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CE520FE186B002EC0DF /* HZVideoPlayerUITests.m */; };
+		EE510CF520FE1B17002EC0DF /* HZVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */; };
+		EE510CF820FED39D002EC0DF /* HZPlayerControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CF720FED39D002EC0DF /* HZPlayerControlView.m */; };
+		EE510CFD20FEED52002EC0DF /* TopStyleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CFC20FEED52002EC0DF /* TopStyleViewController.m */; };
+		EE510D0020FEED62002EC0DF /* InnerStyleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510CFF20FEED62002EC0DF /* InnerStyleViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,15 @@
 		EE510CE120FE186B002EC0DF /* HZVideoPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HZVideoPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE510CE520FE186B002EC0DF /* HZVideoPlayerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVideoPlayerUITests.m; sourceTree = "<group>"; };
 		EE510CE720FE186B002EC0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayer.h; sourceTree = "<group>"; };
+		EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVideoPlayer.m; sourceTree = "<group>"; };
+		EE510CF620FED39D002EC0DF /* HZPlayerControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZPlayerControlView.h; sourceTree = "<group>"; };
+		EE510CF720FED39D002EC0DF /* HZPlayerControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZPlayerControlView.m; sourceTree = "<group>"; };
+		EE510CFA20FED40C002EC0DF /* HZVideoPlayerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayerCommon.h; sourceTree = "<group>"; };
+		EE510CFB20FEED52002EC0DF /* TopStyleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopStyleViewController.h; sourceTree = "<group>"; };
+		EE510CFC20FEED52002EC0DF /* TopStyleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopStyleViewController.m; sourceTree = "<group>"; };
+		EE510CFE20FEED62002EC0DF /* InnerStyleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InnerStyleViewController.h; sourceTree = "<group>"; };
+		EE510CFF20FEED62002EC0DF /* InnerStyleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InnerStyleViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +114,11 @@
 		EE510CC020FE186B002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				EE510CF920FED3A7002EC0DF /* HZVideoPlayer */,
+				EE510CFB20FEED52002EC0DF /* TopStyleViewController.h */,
+				EE510CFC20FEED52002EC0DF /* TopStyleViewController.m */,
+				EE510CFE20FEED62002EC0DF /* InnerStyleViewController.h */,
+				EE510CFF20FEED62002EC0DF /* InnerStyleViewController.m */,
 				EE510CC120FE186B002EC0DF /* AppDelegate.h */,
 				EE510CC220FE186B002EC0DF /* AppDelegate.m */,
 				EE510CC420FE186B002EC0DF /* ViewController.h */,
@@ -130,6 +148,18 @@
 				EE510CE720FE186B002EC0DF /* Info.plist */,
 			);
 			path = HZVideoPlayerUITests;
+			sourceTree = "<group>";
+		};
+		EE510CF920FED3A7002EC0DF /* HZVideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */,
+				EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */,
+				EE510CF620FED39D002EC0DF /* HZPlayerControlView.h */,
+				EE510CF720FED39D002EC0DF /* HZPlayerControlView.m */,
+				EE510CFA20FED40C002EC0DF /* HZVideoPlayerCommon.h */,
+			);
+			path = HZVideoPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,8 +295,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE510CF820FED39D002EC0DF /* HZPlayerControlView.m in Sources */,
+				EE510CF520FE1B17002EC0DF /* HZVideoPlayer.m in Sources */,
 				EE510CC620FE186B002EC0DF /* ViewController.m in Sources */,
 				EE510CD120FE186B002EC0DF /* main.m in Sources */,
+				EE510D0020FEED62002EC0DF /* InnerStyleViewController.m in Sources */,
+				EE510CFD20FEED52002EC0DF /* TopStyleViewController.m in Sources */,
 				EE510CC320FE186B002EC0DF /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +465,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CU5KU23LFX;
 				INFOPLIST_FILE = HZVideoPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,7 +480,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CU5KU23LFX;
 				INFOPLIST_FILE = HZVideoPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retech.HZVideoPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
