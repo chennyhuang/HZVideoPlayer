@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.playerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * (9.0/16));
+    self.playerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 210);
     [self.view addSubview:self.playerView];
 }
 

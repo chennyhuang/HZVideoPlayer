@@ -7,19 +7,28 @@
 //
 
 #import "HZVideoPlayer.h"
-#import "HZPlayerControlView.h"
+#import "HZPlayerView.h"
+#import "Masonry.h"
 
 @interface HZVideoPlayer()
 @property (nonatomic,assign) CGRect selfOriginRect;//自身初始frame
-@property (nonatomic,assign) CGRect containerOriginRect;//containerView初始frame
+@property (nonatomic,assign) CGRect ContainerOriginRect;
 @property (nonatomic,assign) UIStatusBarStyle originStatusBarStyle;//记录状态栏初始style
-@property (nonatomic,assign) UIStatusBarStyle currentStatusBarStyle;//播放器展示后的状态栏style
 @property (nonatomic,strong) UIWindow *keyWindow;
+
 @property (nonatomic,strong) UIView *statusView;
-@property (nonatomic,strong) UIView *containerView;
+@property (nonatomic,strong) UIButton *playButton;//播放暂停按钮
+@property (nonatomic,strong) UIView *containerView;//放置播放界面，播放控制界面
+
+@property (nonatomic,strong) HZPlayerView *playerView;
+
 @end
 
 @implementation HZVideoPlayer
+- (void)dealloc{
+    NSLog(@"view 销毁");
+    [[UIApplication sharedApplication] setStatusBarStyle:self.originStatusBarStyle];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -30,18 +39,23 @@
 
 - (void)initUI{
     self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-    self.currentStatusBarStyle = UIStatusBarStyleLightContent;
     self.backgroundColor = [UIColor clearColor];
     [self addSubview:self.statusView];
     [self addSubview:self.coverImageView];
-    [self addSubview:self.containerView];
+    [self.coverImageView addSubview:self.playButton];
+
     self.statusView.backgroundColor = [UIColor blackColor];
-    self.containerView.backgroundColor = [UIColor brownColor];
+
     //设置播放器默认样式
     self.playerStyle = HZVideoPlayerStyleTop;
+    if (self.playerStyle == HZVideoPlayerStyleTop) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
 }
 
 - (void)initFrame{
+    CGFloat playerX = self.frame.origin.x;
+    CGFloat playerY = self.frame.origin.y;
     CGFloat playerW = self.frame.size.width;
     CGFloat playerH = self.frame.size.height;
     
@@ -51,39 +65,45 @@
     } else {
         statusViewH = 0;
     }
-    self.frame = CGRectMake(0, 0, playerW, playerH + statusViewH);
+    self.frame = CGRectMake(playerX, playerY, playerW, playerH + statusViewH);
     self.selfOriginRect = self.frame;
     self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
     self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH);
-    self.containerView.frame = CGRectMake(0, statusViewH, playerW, playerH);
-    self.containerOriginRect = self.containerView.frame;
+    self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
+//    self.containerView.frame = CGRectMake(0, statusViewH, playerW, playerH);
+    self.ContainerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
+//    self.containerOriginRect = self.containerView.frame;
+    
+    self.playerView.frame = CGRectMake(0, 0, self.ContainerOriginRect.size.width, self.ContainerOriginRect.size.height);
 }
 
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     [self initFrame];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
-    [label addGestureRecognizer:tap];
-    label.userInteractionEnabled = YES;
-    label.text = @"返回";
-    label.backgroundColor = [UIColor redColor];
-    label.textColor = [UIColor whiteColor];
-    [self.containerView addSubview:label];
-    
-    UIButton *landScapeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [landScapeBtn setTitle:@"横屏" forState:UIControlStateNormal];
-    [landScapeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    landScapeBtn.frame = CGRectMake(0, 100, 100, 50);
-    landScapeBtn.backgroundColor = [UIColor yellowColor];
-    [landScapeBtn addTarget:self action:@selector(landClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.containerView addSubview:landScapeBtn];
     
     NSLog(@"didMoveToSuperview--  %@",NSStringFromCGRect(self.frame));
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 #pragma mark getter setter
+- (UIButton *)playButton{
+    if (!_playButton) {
+        _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_playButton setImage:HZPlayerImage(@"HZPlayer_pause") forState:UIControlStateNormal];
+        [_playButton addTarget:self action:@selector(startPlay) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _playButton;
+}
+
+- (void)setPlayerStyle:(HZVideoPlayerStyle)playerStyle{
+    _playerStyle = playerStyle;
+    if (self.playerStyle == HZVideoPlayerStyleTop) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    } else {
+        [[UIApplication sharedApplication] setStatusBarStyle:self.originStatusBarStyle];
+    }
+}
+
 - (UIWindow *)keyWindow{
     return [UIApplication sharedApplication].keyWindow;
 }
@@ -91,8 +111,17 @@
 - (UIView *)containerView{
     if (!_containerView) {
         _containerView = [[UIView alloc] init];
+        _containerView.backgroundColor = [UIColor blackColor];
     }
     return _containerView;
+}
+
+- (HZPlayerView *)playerView{
+    if (!_playerView) {
+        _playerView = [[HZPlayerView alloc] init];
+//        _playerView.url = [NSURL URLWithString:@"http://220.249.115.46:18080/wav/day_by_day.mp4"];
+    }
+    return _playerView;
 }
 
 - (UIView *)statusView{
@@ -105,6 +134,8 @@
 - (UIImageView *)coverImageView{
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
+        _coverImageView.userInteractionEnabled = YES;
+        _coverImageView.image = [UIImage imageNamed:@"placeHolder"];
         _coverImageView.backgroundColor = [UIColor blackColor];
     }
     return _coverImageView;
@@ -119,6 +150,28 @@
 - (void)landClick{
 //    [self manualLandscape];
     NSLog(@"landClick");
+}
+
+- (void)startPlay{
+    //添加播放器
+    [self.superview addSubview:self.containerView];
+    
+    self.containerView.frame = self.ContainerOriginRect;
+    
+    [self.superview addSubview:self.playerView];
+    self.playerView.frame = self.ContainerOriginRect;
+    
+//    self.playerView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.superview).offset(0);
+//        make.left.equalTo(self.superview).offset(0);
+//        make.right.equalTo(self.superview).offset(0);
+//        make.height.mas_equalTo(200);
+//    }];
+    
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
+    NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
+    self.playerView.url = url;
 }
 
 #pragma mark orientation
@@ -158,51 +211,86 @@
 //        
 //    }];
 //}
+/*
+ 动画比较丑
+-(void)onDeviceOrientationChange
+{
+    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    if (UIDeviceOrientationIsLandscape(orientation)) {
+        
+        
+        self.keyWindow.windowLevel = UIWindowLevelStatusBar+10.0f;//隐藏状态栏
+        [self.containerView hideSubViews];
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
+        } completion:^(BOOL finished) {
+            [self.containerView showSubViews];
+        }];
+        self.containerView.frame = self.keyWindow.bounds;
+
+    } else if (orientation==UIDeviceOrientationPortrait){
+        
+        self.keyWindow.windowLevel = UIWindowLevelNormal;//展示状态栏
+        [self.containerView hideSubViews];
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.containerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
+            
+        } completion:^(BOOL finished) {
+            [self.containerView showSubViews];
+        }];
+        self.containerView.frame = self.ContainerOriginRect;
+    }
+    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+}*/
 
 -(void)onDeviceOrientationChange
 {
-    CGFloat statusViewH = 0;
-    if (self.playerStyle == HZVideoPlayerStyleTop) {
-        statusViewH = kStatusBar_Height;
-    } else {
-        statusViewH = 0;
-    }
+    CGFloat duration = [UIApplication sharedApplication].statusBarOrientationAnimationDuration;
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     if (UIDeviceOrientationIsLandscape(orientation)) {
         self.keyWindow.windowLevel = UIWindowLevelStatusBar+10.0f;//隐藏状态栏
-        [UIView animateWithDuration:kRotateAnimationDuration delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(M_PI*1.5):CGAffineTransformMakeRotation(M_PI/2);
+        self.containerView.hidden = NO;
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
+            self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
+            self.containerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
             if (iPhoneX) {
-                self.containerView.frame = CGRectMake(0, statusViewH, kAPPWidth, KAppHeight - statusViewH);
-                self.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
+               self.playerView.frame = CGRectMake(0, kStatusBar_Height, kAPPWidth, KAppHeight - kStatusBar_Height - kBottomSafeHeight);
             } else {
-                self.containerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
-                self.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
+                self.playerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
             }
-            [self setNeedsLayout];
-            [self layoutIfNeeded];
         } completion:^(BOOL finished) {
-            
+
+        }];
+        [self.playerView layoutIfNeeded];
+        [UIView animateWithDuration:duration animations:^{
+            self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
+            [self.playerView layoutIfNeeded];
         }];
         
     } else if (orientation==UIDeviceOrientationPortrait){
+        
         self.keyWindow.windowLevel = UIWindowLevelNormal;//展示状态栏
-        [[UIApplication sharedApplication] setStatusBarStyle:self.originStatusBarStyle];
-        [UIView animateWithDuration:kRotateAnimationDuration delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.containerView.hidden = YES;
+        [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.containerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
-            if (iPhoneX) {
-                self.containerView.frame = self.containerOriginRect;
-                self.frame = self.selfOriginRect;
-            } else {
-                self.containerView.frame = self.containerOriginRect;
-                self.frame = self.selfOriginRect;
-            }
+            self.playerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
             
-            [self setNeedsLayout];
-            [self layoutIfNeeded];
+            self.containerView.frame = self.ContainerOriginRect;
+            self.playerView.frame = self.ContainerOriginRect;
         } completion:^(BOOL finished) {
+
         }];
+        
     }
+    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
+
+
 
 @end
