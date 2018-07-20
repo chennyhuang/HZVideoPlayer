@@ -33,6 +33,8 @@
 		EE510D3921003C88002EC0DF /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2F21003C87002EC0DF /* ViewController+MASAdditions.m */; };
 		EE510D3C21005F7E002EC0DF /* HZSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D3B21005F7E002EC0DF /* HZSliderView.m */; };
 		EE510D3F21005F9D002EC0DF /* UIView+HZFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */; };
+		EE510D4221016AE1002EC0DF /* HZPlayerGestureControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4021016AE0002EC0DF /* HZPlayerGestureControl.m */; };
+		EE510D4E210201E4002EC0DF /* HZLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4C210201E4002EC0DF /* HZLoadingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +111,10 @@
 		EE510D3B21005F7E002EC0DF /* HZSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZSliderView.m; sourceTree = "<group>"; };
 		EE510D3D21005F9D002EC0DF /* UIView+HZFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HZFrame.h"; sourceTree = "<group>"; };
 		EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+HZFrame.m"; sourceTree = "<group>"; };
+		EE510D4021016AE0002EC0DF /* HZPlayerGestureControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZPlayerGestureControl.m; sourceTree = "<group>"; };
+		EE510D4121016AE0002EC0DF /* HZPlayerGestureControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZPlayerGestureControl.h; sourceTree = "<group>"; };
+		EE510D4C210201E4002EC0DF /* HZLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZLoadingView.m; sourceTree = "<group>"; };
+		EE510D4D210201E4002EC0DF /* HZLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZLoadingView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +206,10 @@
 		EE510CF920FED3A7002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				EE510D4D210201E4002EC0DF /* HZLoadingView.h */,
+				EE510D4C210201E4002EC0DF /* HZLoadingView.m */,
+				EE510D4121016AE0002EC0DF /* HZPlayerGestureControl.h */,
+				EE510D4021016AE0002EC0DF /* HZPlayerGestureControl.m */,
 				EE510D3D21005F9D002EC0DF /* UIView+HZFrame.h */,
 				EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */,
 				EE510D3A21005F7E002EC0DF /* HZSliderView.h */,
@@ -381,6 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE510D4221016AE1002EC0DF /* HZPlayerGestureControl.m in Sources */,
 				EE510D3521003C88002EC0DF /* MASViewConstraint.m in Sources */,
 				EE510CF520FE1B17002EC0DF /* HZVideoPlayer.m in Sources */,
 				EE510D3421003C88002EC0DF /* MASViewAttribute.m in Sources */,
@@ -389,6 +400,7 @@
 				EE510D3F21005F9D002EC0DF /* UIView+HZFrame.m in Sources */,
 				EE510D3C21005F7E002EC0DF /* HZSliderView.m in Sources */,
 				EE510D3021003C88002EC0DF /* MASCompositeConstraint.m in Sources */,
+				EE510D4E210201E4002EC0DF /* HZLoadingView.m in Sources */,
 				EE510D3221003C88002EC0DF /* MASConstraintMaker.m in Sources */,
 				EE510D3821003C88002EC0DF /* View+MASAdditions.m in Sources */,
 				EE510D3321003C88002EC0DF /* MASLayoutConstraint.m in Sources */,

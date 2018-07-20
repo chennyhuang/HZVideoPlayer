@@ -73,8 +73,9 @@
 //    self.containerView.frame = CGRectMake(0, statusViewH, playerW, playerH);
     self.ContainerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
 //    self.containerOriginRect = self.containerView.frame;
-    
-    self.playerView.frame = CGRectMake(0, 0, self.ContainerOriginRect.size.width, self.ContainerOriginRect.size.height);
+    if (_playerView) {
+        self.playerView.frame = CGRectMake(0, 0, self.ContainerOriginRect.size.width, self.ContainerOriginRect.size.height);
+    }
 }
 
 - (void)didMoveToSuperview{
@@ -161,17 +162,13 @@
     [self.superview addSubview:self.playerView];
     self.playerView.frame = self.ContainerOriginRect;
     
-//    self.playerView.translatesAutoresizingMaskIntoConstraints = NO;
-//    [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.superview).offset(0);
-//        make.left.equalTo(self.superview).offset(0);
-//        make.right.equalTo(self.superview).offset(0);
-//        make.height.mas_equalTo(200);
-//    }];
-    
-//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
-    NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
+
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
+//    NSURL *url = [NSURL fileURLWithPath:filePath];
+    NSURL *url = [NSURL fileURLWithPath:@"https://www.apple.com/105/media/us/iphone-x/2017/01df5b43-28e4-4848-bf20-490c34a926a7/films/feature/iphone-x-feature-tpl-cc-us-20170912_1280x720h.mp4"];
+//    NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
     self.playerView.url = url;
+    self.playerView.autoPlay = YES;
 }
 
 #pragma mark orientation
@@ -253,6 +250,9 @@
     if (UIDeviceOrientationIsLandscape(orientation)) {
         self.keyWindow.windowLevel = UIWindowLevelStatusBar+10.0f;//隐藏状态栏
         self.containerView.hidden = NO;
+        self.playerView.playerOrientation = HZPlayerOrientationLandScape;
+        [self.playerView rotateBeginHideItems];
+        
         [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
             self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
@@ -263,18 +263,16 @@
                 self.playerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
             }
         } completion:^(BOOL finished) {
-
-        }];
-        [self.playerView layoutIfNeeded];
-        [UIView animateWithDuration:duration animations:^{
-            self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
-            [self.playerView layoutIfNeeded];
+            [self.playerView rotateEndShowItems];
         }];
         
     } else if (orientation==UIDeviceOrientationPortrait){
         
         self.keyWindow.windowLevel = UIWindowLevelNormal;//展示状态栏
         self.containerView.hidden = YES;
+        self.playerView.playerOrientation = HZPlayerOrientationPortrait;
+        [self.playerView rotateBeginHideItems];
+        
         [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
             self.containerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
             self.playerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
@@ -282,7 +280,7 @@
             self.containerView.frame = self.ContainerOriginRect;
             self.playerView.frame = self.ContainerOriginRect;
         } completion:^(BOOL finished) {
-
+            [self.playerView rotateEndShowItems];
         }];
         
     }

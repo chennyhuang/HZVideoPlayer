@@ -9,16 +9,28 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSInteger,HZVideoFillMode){
-    HZVideoFillModeResize = 0,       //拉伸占满整个播放器，不按原比例拉伸
-    HZVideoFillModeResizeAspect,     //按原视频比例显示，是竖屏的就显示出竖屏的，两边留黑
-    HZVideoFillModeResizeAspectFill, //按照原比例拉伸占满整个播放器，但视频内容超出部分会被剪切
+typedef NS_ENUM(NSInteger, HZPlayerScalingMode) {
+    HZPlayerScalingModeNone,       // No scaling.
+    HZPlayerScalingModeAspectFit,  // Uniform scale until one dimension fits.
+    HZPlayerScalingModeAspectFill, // Uniform scale until the movie fills the visible bounds. One dimension may have clipped contents.
+    HZPlayerScalingModeFill        // Non-uniform scale. Both render dimensions will exactly match the visible bounds.
+};
+
+typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
+    HZPlayerOrientationPortrait, //竖直（正常方向，非横屏）
+    HZPlayerOrientationLandScape //横屏
 };
 
 @interface HZPlayerView : UIView
 /**拉伸方式，默认全屏填充*/
-@property (nonatomic, assign) HZVideoFillMode videoFillMode;
+@property (nonatomic, assign) HZPlayerScalingMode scalingMode;
 /**视频url*/
 @property (nonatomic, strong) NSURL *url;
+/**播放器当前的方向*/
+@property (nonatomic, assign) HZPlayerOrientation playerOrientation;
+/**播放器是否自动播放(默认 YES 自动播放)*/
+@property (nonatomic,assign) BOOL autoPlay;
 
+- (void)rotateBeginHideItems;
+- (void)rotateEndShowItems;
 @end

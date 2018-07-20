@@ -13,5 +13,4 @@
 @property (nonatomic,assign) HZVideoPlayerStyle playerStyle;
 /// 封面图
 @property (nonatomic, strong) UIImageView *coverImageView;
-
 @end
