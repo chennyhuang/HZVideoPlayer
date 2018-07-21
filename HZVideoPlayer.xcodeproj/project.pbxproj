@@ -35,6 +35,7 @@
 		EE510D3F21005F9D002EC0DF /* UIView+HZFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */; };
 		EE510D4221016AE1002EC0DF /* HZPlayerGestureControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4021016AE0002EC0DF /* HZPlayerGestureControl.m */; };
 		EE510D4E210201E4002EC0DF /* HZLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4C210201E4002EC0DF /* HZLoadingView.m */; };
+		EE510D512102E603002EC0DF /* HZGCDTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4F2102E603002EC0DF /* HZGCDTimerManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,8 @@
 		EE510D4121016AE0002EC0DF /* HZPlayerGestureControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZPlayerGestureControl.h; sourceTree = "<group>"; };
 		EE510D4C210201E4002EC0DF /* HZLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZLoadingView.m; sourceTree = "<group>"; };
 		EE510D4D210201E4002EC0DF /* HZLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZLoadingView.h; sourceTree = "<group>"; };
+		EE510D4F2102E603002EC0DF /* HZGCDTimerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZGCDTimerManager.m; sourceTree = "<group>"; };
+		EE510D502102E603002EC0DF /* HZGCDTimerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZGCDTimerManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +209,8 @@
 		EE510CF920FED3A7002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				EE510D502102E603002EC0DF /* HZGCDTimerManager.h */,
+				EE510D4F2102E603002EC0DF /* HZGCDTimerManager.m */,
 				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
 				EE510D4D210201E4002EC0DF /* HZLoadingView.h */,
 				EE510D4C210201E4002EC0DF /* HZLoadingView.m */,
@@ -406,6 +411,7 @@
 				EE510D3321003C88002EC0DF /* MASLayoutConstraint.m in Sources */,
 				EE510D3921003C88002EC0DF /* ViewController+MASAdditions.m in Sources */,
 				EE510D3121003C88002EC0DF /* MASConstraint.m in Sources */,
+				EE510D512102E603002EC0DF /* HZGCDTimerManager.m in Sources */,
 				EE510D0020FEED62002EC0DF /* InnerStyleViewController.m in Sources */,
 				EE510CFD20FEED52002EC0DF /* TopStyleViewController.m in Sources */,
 				EE510D3621003C88002EC0DF /* NSArray+MASAdditions.m in Sources */,
