@@ -206,6 +206,7 @@
 		EE510CF920FED3A7002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
 				EE510D4D210201E4002EC0DF /* HZLoadingView.h */,
 				EE510D4C210201E4002EC0DF /* HZLoadingView.m */,
 				EE510D4121016AE0002EC0DF /* HZPlayerGestureControl.h */,
@@ -214,7 +215,6 @@
 				EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */,
 				EE510D3A21005F7E002EC0DF /* HZSliderView.h */,
 				EE510D3B21005F7E002EC0DF /* HZSliderView.m */,
-				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
 				EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */,
 				EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */,
 				EE510CFA20FED40C002EC0DF /* HZVideoPlayerCommon.h */,

@@ -17,6 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.playerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 210);
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
+    //    NSURL *url = [NSURL fileURLWithPath:filePath];
+    NSURL *url = [NSURL fileURLWithPath:@"https://www.apple.com/105/media/us/iphone-x/2017/01df5b43-28e4-4848-bf20-490c34a926a7/films/feature/iphone-x-feature-tpl-cc-us-20170912_1280x720h.mp4"];
+    //    NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
+    self.playerView.url = url;
+    
     [self.view addSubview:self.playerView];
 }
 

@@ -63,78 +63,8 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
 @implementation HZPlayerView
 - (void)dealloc{
     [self removeObservers];
+    [self resetPlayer];
     NSLog(@"播放器被销毁了");
-}
-
-- (void)removeObservers{
-    [_playerItem removeObserver:self forKeyPath:@"status"];
-    [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:AVPlayerItemDidPlayToEndTimeNotification
-                                                  object:_player.currentItem];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-    [_player removeTimeObserver:_timeObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:_itemEndObserver name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-}
-
-- (void)addObservers{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(playerDidEnd:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:_playerItem];
-    [_playerItem addObserver:self
-                 forKeyPath:@"status"
-                    options:NSKeyValueObservingOptionNew
-                    context:nil];
-    [_playerItem addObserver:self
-                 forKeyPath:@"loadedTimeRanges"
-                    options:NSKeyValueObservingOptionNew
-                    context:nil];
-    [_playerItem addObserver:self
-                 forKeyPath:@"playbackBufferEmpty"
-                    options:NSKeyValueObservingOptionNew
-                    context:nil];
-    CMTime interval = CMTimeMakeWithSeconds(1.0, 1.0);
-    @weakify(self)
-    _timeObserver = [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        @strongify(self)
-        if (!self) return;
-        //播放器正在在播放中
-        if (@available(iOS 10.0, *)) {
-            if (self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying){
-                NSLog(@"播放中 --");
-                self.playerState = HZPlayerStatePlaying;
-                [self playerTimeChange];
-            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
-                NSLog(@"AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate");
-                self.playerState = HZPlayerStateBuffering;
-            } else {
-                NSLog(@"pause -- ");
-            }
-            
-        } else {
-            if (self.player.rate == 1) {
-                NSLog(@"播放中");
-                self.playerState = HZPlayerStatePlaying;
-                [self playerTimeChange];
-            } else {
-                NSLog(@"pause -- ");
-            }
-            
-        }
-    }];
-    
-    _itemEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-        @strongify(self)
-        if (!self) return;
-//            NSLog(@"_itemEndObserver -- ");
-    }];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -240,22 +170,14 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
             self.playOrPauseBtn.selected = YES;
             break;
         case HZPlayerStatePlaying:
-//            NSLog(@"动画消失");
             if (self.player) {
-                NSLog(@"动画消失");
                 [self.activity stop];
                 self.playOrPauseBtn.selected = NO;
-//                if (self.isToolBarShow) {
-//                    self.playOrPauseBtn.hidden = NO;
-//                } else {
-//                    self.playOrPauseBtn.hidden = YES;
-//                }
             }
             
             break;
         case HZPlayerStateBuffering:
             if (self.player) {
-//                NSLog(@"动画开始");
                 [self.activity start];
                 self.playOrPauseBtn.selected = YES;
             }
@@ -264,7 +186,9 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
             
             break;
         case HZPlayerStateDone:
-//            NSLog(@"播放完成");
+            if (self.playEnd) {
+                self.playEnd();
+            }
             break;
         default:
             break;
@@ -321,6 +245,7 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backBtn setImage:HZPlayerImage(@"HZPlayer_back") forState:UIControlStateNormal];
+        [_backBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _backBtn;
 }
@@ -387,8 +312,19 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     if (!_fullScreenBtn) {
         _fullScreenBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_fullScreenBtn setImage:HZPlayerImage(@"HZPlayer_fullscreen") forState:UIControlStateNormal];
+        [_fullScreenBtn setImage:HZPlayerImage(@"HZPlayer_hideFullscreen") forState:UIControlStateSelected];
+        [_fullScreenBtn addTarget:self action:@selector(fullClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _fullScreenBtn;
+}
+
+- (void)setPlayerOrientation:(HZPlayerOrientation)playerOrientation{
+    _playerOrientation = playerOrientation;
+    if (playerOrientation == HZPlayerOrientationPortrait) {
+        _fullScreenBtn.selected = NO;
+    } else {
+        _fullScreenBtn.selected = YES;
+    }
 }
 
 //手势相关处理
@@ -503,9 +439,20 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     }
 }
 
+- (void)stop{
+    [self removeObservers];
+    [self resetPlayer];
+    [self removeFromSuperview];
+}
+
+
+#pragma mark private methods
 #pragma mark - 缓冲较差时候
 //卡顿缓冲几秒
 - (void)bufferingSomeSecond{
+    if (!_player) {
+        return;
+    }
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.player pause];
     self.playerState = HZPlayerStateBuffering;
@@ -517,6 +464,9 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
 }
 //卡顿缓冲结束
 - (void)bufferingSomeSecondEnd{
+    if (!_player) {
+        return;
+    }
     // 如果执行了play还是没有播放则说明还没有缓存好，则再次缓存一段时间
     if (!self.playerItem.isPlaybackLikelyToKeepUp) {
         [self bufferingSomeSecond];
@@ -525,7 +475,77 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     }
 }
 
-#pragma mark private methods
+- (void)removeObservers{
+    [_playerItem removeObserver:self forKeyPath:@"status"];
+    [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:_player.currentItem];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationWillResignActiveNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
+    [_player removeTimeObserver:_timeObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:_itemEndObserver name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+}
+
+- (void)addObservers{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerDidEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:_playerItem];
+    [_playerItem addObserver:self
+                  forKeyPath:@"status"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
+    [_playerItem addObserver:self
+                  forKeyPath:@"loadedTimeRanges"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
+    [_playerItem addObserver:self
+                  forKeyPath:@"playbackBufferEmpty"
+                     options:NSKeyValueObservingOptionNew
+                     context:nil];
+    CMTime interval = CMTimeMakeWithSeconds(1.0, 1.0);
+    @weakify(self)
+    _timeObserver = [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        @strongify(self)
+        if (!self) return;
+        //播放器正在在播放中
+        if (@available(iOS 10.0, *)) {
+            if (self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying){
+                NSLog(@"播放中 --");
+                self.playerState = HZPlayerStatePlaying;
+                [self playerTimeChange];
+            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
+                NSLog(@"AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate");
+                self.playerState = HZPlayerStateBuffering;
+            } else {
+                NSLog(@"pause -- ");
+            }
+            
+        } else {
+            if (self.player.rate == 1) {
+                NSLog(@"播放中");
+                self.playerState = HZPlayerStatePlaying;
+                [self playerTimeChange];
+            } else {
+                NSLog(@"pause -- ");
+            }
+            
+        }
+    }];
+    
+    _itemEndObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        @strongify(self)
+        if (!self) return;
+        NSLog(@"播放完成 EndObserver ");
+    }];
+}
+
 //重置播放器
 - (void)resetPlayer{
     if (_playerLayer) {
@@ -535,6 +555,9 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     [_player pause];
     if (_player) {
         _player = nil;
+    }
+    if (_playerItem) {
+        _playerItem = nil;
     }
     self.totalTime = 0;
     self.currentTimeLabel.text = @"00:00";
@@ -583,6 +606,26 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
 
 - (void)playPause:(UIButton *)button{
     button.selected?[self play]:[self pause];
+}
+
+- (void)backClick{
+    if (self.rotateToPortrait) {
+        self.rotateToPortrait();
+    }
+}
+
+- (void)fullClick:(UIButton *)button{
+    if (self.playerOrientation == HZPlayerOrientationPortrait) {
+//        button.selected = YES;
+        if (self.rotateToLandScape) {
+            self.rotateToLandScape();
+        }
+    } else {
+//        button.selected = NO;
+        if (self.rotateToPortrait) {
+            self.rotateToPortrait();
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
@@ -679,7 +722,6 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
 
 // 滑块拖动中
 - (void)sliderValueChanged:(float)value{
-//    NSLog(@"sliderValueChanged ---  %f",value);
     if (self.totalTime == 0) {
         self.slider.value = 0;
         return;
@@ -687,7 +729,6 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
     self.slider.isdragging = YES;
     NSString *currentTimeString = [self getTime:self.totalTime*value];
     self.currentTimeLabel.text = currentTimeString;
-//    self.slider.value = value;
     self.bottomPgrogress.value = value;
 }
 
@@ -698,7 +739,6 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
 
 // 滑杆点击
 - (void)sliderTapped:(float)value{
-//    NSLog(@"sliderTapped -- %f",value);
     [self sliderChange:value];
 }
 
@@ -708,14 +748,11 @@ typedef NS_ENUM(NSInteger, HZPlayerState) {
         @weakify(self)
         NSString *currentTimeString = [self getTime:self.totalTime*value];
         self.currentTimeLabel.text = currentTimeString;
-        //设置slider
-//        self.slider.value = value;
         self.bottomPgrogress.value = value;
         [self seekToTime:self.totalTime*value completionHandler:^(BOOL finished) {
             @strongify(self)
             if (finished) {
                 self.slider.isdragging = NO;
-                NSLog(@"sliderChange  comple");
                 [self play];
             }
         }];

@@ -30,7 +30,17 @@ typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
 @property (nonatomic, assign) HZPlayerOrientation playerOrientation;
 /**播放器是否自动播放(默认 YES 自动播放)*/
 @property (nonatomic,assign) BOOL autoPlay;
-
+@property (nonatomic,copy) void(^rotateToPortrait)(void);
+@property (nonatomic,copy) void(^rotateToLandScape)(void);
+/**播放结束*/
+@property (nonatomic,copy) void(^playEnd)(void);
 - (void)rotateBeginHideItems;
 - (void)rotateEndShowItems;
+
+/**播放*/
+- (void)play;
+/**暂停*/
+- (void)pause;
+/**停止*/
+- (void)stop;
 @end
