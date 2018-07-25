@@ -104,7 +104,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     CGFloat activityWH = 20;
     if (self.playerOrientation == HZPlayerOrientationLandScape) {
         playPauseBtnWH = 60;
-//        activityWH = 60;
     }
     self.playOrPauseBtn.frame = CGRectMake((viewW - playPauseBtnWH)*0.5, (viewH - playPauseBtnWH)*0.5, playPauseBtnWH, playPauseBtnWH);
     self.activity.frame = CGRectMake((viewW - activityWH)*0.5, (viewH - activityWH)*0.5, activityWH, activityWH);
@@ -266,7 +265,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     if(!_retryButton){
         _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _retryButton.hidden = YES;
-//        _retryButton.backgroundColor = [UIColor blackColor];
         _retryButton.layer.borderWidth = 1;
         _retryButton.layer.cornerRadius = 5;
         _retryButton.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -433,12 +431,11 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         
         _gestureControl.singleTapped = ^(HZPlayerGestureControl * _Nonnull control) {
             @strongify(self)
-//            NSLog(@"singleTapped");
             self.isToolBarShow == YES? [self singleTapHideItems]:[self singleTapShowItems];
         };
         
         _gestureControl.doubleTapped = ^(HZPlayerGestureControl * _Nonnull control) {
-            @strongify(self)
+
         };
         
         _gestureControl.beganPan = ^(HZPlayerGestureControl * _Nonnull control, HZPanDirection direction, HZPanLocation location) {
@@ -446,7 +443,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             if (direction == HZPanDirectionH) {
                 self.sumTime = CMTimeGetSeconds(self.player.currentTime);
             }
-//            NSLog(@"beganPan");
             [self singleTapHideItems];
         };
         
@@ -473,7 +469,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
                 } else if(location == HZPanLocationRight) {
                     //调节声音
                     self.volume -= (velocity.y) / 10000;
-//                    [self.tipView updateProgress:self.volume withVolumeBrightnessType:HZVolumeBrightnessTypeVolume];
                 }
             }
             
@@ -486,13 +481,10 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
                  [self.timeView updateTime:self.sumTime totalTime:self.totalTime];
              }
             [self singleTapHideItems];
-            
-//            NSLog(@"endedPan");
         };
         
         _gestureControl.pinched = ^(HZPlayerGestureControl * _Nonnull control, float scale) {
             @strongify(self)
-//            NSLog(@"pinched");
             if (scale > 1) {
                 self.scalingMode = HZPlayerScalingModeAspectFill;
             } else {
@@ -527,11 +519,9 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 //播放
 - (void)play{
     if (self.isPrepareToPlay) {
-//        NSLog(@"play -- ");
         if (!self.playerItem.isPlaybackLikelyToKeepUp) {
             [self bufferingSomeSecond];
         } else {
-//            NSLog(@"播放");
             self.playerState = HZPlayerStatePlaying;
             [self.player play];
         }
@@ -581,7 +571,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [self.player pause];
     self.playerState = HZPlayerStateBuffering;
-//    NSLog(@"网络较差，3秒缓冲中 --- ");
+//    NSLog(@"网络较差，3秒缓冲中");
     //延迟执行
     [self performSelector:@selector(bufferingSomeSecondEnd)
                withObject:@"Buffering"
@@ -670,26 +660,23 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     _timeObserver = [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         @strongify(self)
         if (!self) return;
-        //播放器正在在播放中
+        
         if (@available(iOS 10.0, *)) {
             if (self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying){
-//                NSLog(@"播放中 --");
+                //播放器正在在播放中
                 self.playerState = HZPlayerStatePlaying;
                 [self playerTimeChange];
             } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
-//                NSLog(@"AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate");
                 self.playerState = HZPlayerStateBuffering;
             } else {
-//                NSLog(@"pause -- ");
+
             }
             
         } else {
             if (self.player.rate == 1) {
-//                NSLog(@"播放中");
                 self.playerState = HZPlayerStatePlaying;
                 [self playerTimeChange];
             } else {
-//                NSLog(@"pause -- ");
             }
             
         }

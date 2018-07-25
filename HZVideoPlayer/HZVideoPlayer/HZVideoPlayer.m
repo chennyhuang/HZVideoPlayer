@@ -36,48 +36,6 @@
     return self;
 }
 
-- (void)initUI{
-    //默认自动播放
-    self.autoPlay = YES;
-    //默认可以横竖屏旋转
-    self.enableAutoRotate = YES;
-    //设置播放器默认样式
-    self.playerStyle = HZVideoPlayerStyleTop;
-    
-    self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-    self.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.statusView];
-    [self addSubview:self.coverImageView];
-    [self.coverImageView addSubview:self.playButton];
-
-    self.statusView.backgroundColor = [UIColor blackColor];
-    if (self.playerStyle == HZVideoPlayerStyleTop) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-}
-
-- (void)initFrame{
-    CGFloat playerX = self.frame.origin.x;
-    CGFloat playerY = self.frame.origin.y;
-    CGFloat playerW = self.frame.size.width;
-    CGFloat playerH = self.frame.size.height;
-    
-    CGFloat statusViewH = 0;
-    if (self.playerStyle == HZVideoPlayerStyleTop) {
-        statusViewH = kNormalStatusBar_Height;
-    } else {
-        statusViewH = 0;
-    }
-    self.frame = CGRectMake(playerX, playerY, playerW, playerH + statusViewH);
-    self.selfOriginRect = self.frame;
-    self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
-    self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH);
-    self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
-    if (_playerView) {
-        self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
-    }
-}
-
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     [self initFrame];
@@ -87,8 +45,6 @@
 }
 
 #pragma mark getter setter
-
-
 - (UIButton *)playButton{
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -137,6 +93,47 @@
 }
 
 #pragma mark private methods
+- (void)initUI{
+    //默认自动播放
+    self.autoPlay = YES;
+    //默认可以横竖屏旋转
+    self.enableAutoRotate = YES;
+    //设置播放器默认样式
+    self.playerStyle = HZVideoPlayerStyleTop;
+    
+    self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
+    self.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.statusView];
+    [self addSubview:self.coverImageView];
+    [self.coverImageView addSubview:self.playButton];
+    
+    self.statusView.backgroundColor = [UIColor blackColor];
+    if (self.playerStyle == HZVideoPlayerStyleTop) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+}
+
+- (void)initFrame{
+    CGFloat playerX = self.frame.origin.x;
+    CGFloat playerY = self.frame.origin.y;
+    CGFloat playerW = self.frame.size.width;
+    CGFloat playerH = self.frame.size.height;
+    
+    CGFloat statusViewH = 0;
+    if (self.playerStyle == HZVideoPlayerStyleTop) {
+        statusViewH = kNormalStatusBar_Height;
+    } else {
+        statusViewH = 0;
+    }
+    self.frame = CGRectMake(playerX, playerY, playerW, playerH + statusViewH);
+    self.selfOriginRect = self.frame;
+    self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
+    self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH);
+    self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
+    if (_playerView) {
+        self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
+    }
+}
 - (void)addPlayer{
     //获取播放器相对于 superview 的坐标
     self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
