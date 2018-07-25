@@ -10,6 +10,7 @@
 #import "HZVideoPlayerCommon.h"
 
 @interface HZVideoPlayer : UIView
+/**播放器类型,默认HZVideoPlayerStyleTop（初始化播放器时设置）*/
 @property (nonatomic,assign) HZVideoPlayerStyle playerStyle;
 /**是否自动播放,默认YES（初始化播放器时设置）*/
 @property (nonatomic,assign) BOOL autoPlay;

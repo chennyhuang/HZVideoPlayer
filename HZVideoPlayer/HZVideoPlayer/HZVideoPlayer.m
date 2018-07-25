@@ -41,6 +41,8 @@
     self.autoPlay = YES;
     //默认可以横竖屏旋转
     self.enableAutoRotate = YES;
+    //设置播放器默认样式
+    self.playerStyle = HZVideoPlayerStyleTop;
     
     self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     self.backgroundColor = [UIColor clearColor];
@@ -49,9 +51,6 @@
     [self.coverImageView addSubview:self.playButton];
 
     self.statusView.backgroundColor = [UIColor blackColor];
-
-    //设置播放器默认样式
-    self.playerStyle = HZVideoPlayerStyleTop;
     if (self.playerStyle == HZVideoPlayerStyleTop) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
