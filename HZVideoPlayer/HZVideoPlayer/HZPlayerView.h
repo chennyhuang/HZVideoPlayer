@@ -10,14 +10,14 @@
 #import <AVFoundation/AVFoundation.h>
 
 typedef NS_ENUM(NSInteger, HZPlayerScalingMode) {
-    HZPlayerScalingModeNone,       // No scaling.
+    HZPlayerScalingModeNone = 0,       // No scaling.
     HZPlayerScalingModeAspectFit,  // Uniform scale until one dimension fits.
     HZPlayerScalingModeAspectFill, // Uniform scale until the movie fills the visible bounds. One dimension may have clipped contents.
     HZPlayerScalingModeFill        // Non-uniform scale. Both render dimensions will exactly match the visible bounds.
 };
 
 typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
-    HZPlayerOrientationPortrait, //竖直（正常方向，非横屏）
+    HZPlayerOrientationPortrait = 0, //竖直（正常方向，非横屏）
     HZPlayerOrientationLandScape //横屏
 };
 

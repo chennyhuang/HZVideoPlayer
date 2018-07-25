@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 typedef NS_ENUM(NSUInteger, HZVolumeBrightnessType) {
-    HZVolumeBrightnessTypeVolume,
+    HZVolumeBrightnessTypeVolume = 0,
     HZVolumeBrightnessTypeBrightness
 };
 

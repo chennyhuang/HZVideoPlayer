@@ -10,7 +10,7 @@
 #define HZVideoPlayerCommon_h
 //播放器类型
 typedef NS_ENUM(NSUInteger,HZVideoPlayerStyle) {
-    HZVideoPlayerStyleTop,
+    HZVideoPlayerStyleTop = 0,
     HZVideoPlayerStyleInner
 };
 

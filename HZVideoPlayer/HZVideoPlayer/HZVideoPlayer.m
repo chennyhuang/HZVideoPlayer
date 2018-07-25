@@ -8,7 +8,7 @@
 
 #import "HZVideoPlayer.h"
 #import "HZPlayerView.h"
-
+#import "UIImageView+WebCache.h"
 @interface HZVideoPlayer()
 @property (nonatomic,assign) CGRect selfOriginRect;//自身初始frame
 @property (nonatomic,assign) CGRect containerOriginRect;
@@ -18,7 +18,8 @@
 @property (nonatomic,strong) UIView *statusView;
 @property (nonatomic,strong) UIButton *playButton;//播放暂停按钮
 @property (nonatomic,strong) UIView *containerView;//放置播放界面，播放控制界面
-
+/**封面图*/
+@property (nonatomic, strong) UIImageView *coverImageView;
 @property (nonatomic,strong) HZPlayerView *playerView;
 @end
 
@@ -86,10 +87,14 @@
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
         _coverImageView.userInteractionEnabled = YES;
-//        _coverImageView.image = [UIImage imageNamed:@"placeHolder"];
-        _coverImageView.backgroundColor = [UIColor blackColor];
+        _coverImageView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
     return _coverImageView;
+}
+
+- (void)setCoverImageUrl:(NSURL *)coverImageUrl{
+    _coverImageUrl = coverImageUrl;
+    [self.coverImageView sd_setImageWithURL:coverImageUrl];
 }
 
 #pragma mark private methods

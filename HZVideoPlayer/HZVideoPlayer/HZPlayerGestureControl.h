@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, HZPlayerGestureType) {
-    HZPlayerGestureTypeUnknown,
+    HZPlayerGestureTypeUnknown = 0,
     HZPlayerGestureTypeSingleTap,
     HZPlayerGestureTypeDoubleTap,
     HZPlayerGestureTypePan,
@@ -19,19 +19,19 @@ typedef NS_ENUM(NSUInteger, HZPlayerGestureType) {
 };
 
 typedef NS_ENUM(NSUInteger, HZPanDirection) {
-    HZPanDirectionUnknown,
+    HZPanDirectionUnknown = 0,
     HZPanDirectionV,
     HZPanDirectionH,
 };
 
 typedef NS_ENUM(NSUInteger, HZPanLocation) {
-    HZPanLocationUnknown,
+    HZPanLocationUnknown = 0,
     HZPanLocationLeft,
     HZPanLocationRight,
 };
 
 typedef NS_ENUM(NSUInteger, HZPanMovingDirection) {
-    HZPanMovingDirectionUnkown,
+    HZPanMovingDirectionUnkown = 0,
     HZPanMovingDirectionTop,
     HZPanMovingDirectionLeft,
     HZPanMovingDirectionBottom,

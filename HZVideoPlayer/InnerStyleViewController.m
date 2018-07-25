@@ -33,7 +33,6 @@
         _playerView = [[HZVideoPlayer alloc] init];
         _playerView.frame = CGRectMake(0, 300, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * (9.0/16));
         _playerView.playerStyle = HZVideoPlayerStyleInner;
-        _playerView.coverImageView.image = [UIImage imageNamed:@"placeHolder"];
         _playerView.autoPlay = NO;
     }
     return _playerView;

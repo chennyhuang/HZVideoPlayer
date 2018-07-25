@@ -18,8 +18,8 @@
 @property (nonatomic, strong) NSURL *url;
 /**是否能够响应横竖屏旋转,默认YES(播放过程中可动态设置)*/
 @property (nonatomic,assign) BOOL enableAutoRotate;
-/**封面图*/
-@property (nonatomic, strong) UIImageView *coverImageView;
+/**配图地址*/
+@property (nonatomic,strong) NSURL *coverImageUrl;
 /**播放（播放过程中可外部触发）*/
 - (void)play;
 /**暂停（播放过程中可外部触发）*/
