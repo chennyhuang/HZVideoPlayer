@@ -745,8 +745,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     self.bottomProgress.hidden = YES;
 }
 
+//播放暂停按钮，按钮的状态改变只能通过这个点击事件。play pause方法不涉及按钮状态变化。按钮状态会影响play方法，只有 button.selected == NO 的时候调用play方法才能实现真正意义上的播放
 - (void)playPause:(UIButton *)button{
-//    NSLog(@"playPause");
     if (button.selected) {
         button.selected = NO;
         [self play];

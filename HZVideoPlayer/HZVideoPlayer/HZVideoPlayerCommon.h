@@ -10,8 +10,8 @@
 #define HZVideoPlayerCommon_h
 //播放器类型
 typedef NS_ENUM(NSUInteger,HZVideoPlayerStyle) {
-    HZVideoPlayerStyleTop = 0,
-    HZVideoPlayerStyleInner
+    HZVideoPlayerStyleInner = 0,
+    HZVideoPlayerStyleTop
 };
 
 #define kAPPWidth [UIScreen mainScreen].bounds.size.width

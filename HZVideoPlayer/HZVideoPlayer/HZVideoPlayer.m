@@ -7,7 +7,6 @@
 //
 
 #import "HZVideoPlayer.h"
-#import "HZPlayerView.h"
 #import "UIImageView+WebCache.h"
 @interface HZVideoPlayer()
 @property (nonatomic,assign) CGRect selfOriginRect;//自身初始frame
@@ -104,7 +103,7 @@
     //默认可以横竖屏旋转
     self.enableAutoRotate = YES;
     //设置播放器默认样式
-    self.playerStyle = HZVideoPlayerStyleTop;
+    self.playerStyle = HZVideoPlayerStyleInner;
     
     self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     self.backgroundColor = [UIColor clearColor];
@@ -130,10 +129,10 @@
     } else {
         statusViewH = 0;
     }
-    self.frame = CGRectMake(playerX, playerY, playerW, playerH + statusViewH);
+    self.frame = CGRectMake(playerX, playerY, playerW, playerH);
     self.selfOriginRect = self.frame;
     self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
-    self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH);
+    self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH - statusViewH);
     self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
     if (_playerView) {
         self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
@@ -261,15 +260,16 @@
 #pragma mark public methods
 - (void)play{
     if (self.playerView) {
-        [self.playerView play];
-        self.playerView.playOrPauseBtn.selected = NO;
+        //只有按钮为播放状态的时候才能真正开始播放视频
+        if (!self.playerView.playOrPauseBtn.selected) {
+            [self.playerView play];
+        }
     }
 }
 
 - (void)pause{
     if (self.playerView) {
         [self.playerView pause];
-        self.playerView.playOrPauseBtn.selected = YES;
     }
 }
 

@@ -28,20 +28,6 @@
     NSLog(@"view -- %@",NSStringFromCGRect(self.view.frame));
     NSLog(@"window --%@",NSStringFromCGRect([UIApplication sharedApplication].keyWindow.frame));
     
-    UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-    [playButton setTitle:@"播放" forState:UIControlStateNormal];
-    [playButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    playButton.frame = CGRectMake(50, 300, 60, 50);
-    [self.view addSubview:playButton];
-    
-    UIButton *pauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [pauseButton addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
-    [pauseButton setTitle:@"暂停" forState:UIControlStateNormal];
-    [pauseButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    pauseButton.frame = CGRectMake(150, 300, 60, 50);
-    [self.view addSubview:pauseButton];
-    
     UIButton *stopButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [stopButton addTarget:self action:@selector(stop) forControlEvents:UIControlEventTouchUpInside];
     [stopButton setTitle:@"停止" forState:UIControlStateNormal];
@@ -75,13 +61,6 @@
     return _playerView;
 }
 
-- (void)play{
-    [self.playerView play];
-}
-
-- (void)pause{
-    [self.playerView pause];
-}
 
 - (void)stop{
     [self.playerView stop];
