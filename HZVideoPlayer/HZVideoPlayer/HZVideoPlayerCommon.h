@@ -21,8 +21,6 @@ typedef NS_ENUM(NSUInteger,HZVideoPlayerStyle) {
 #define kNormalStatusBar_Height (iPhoneX?44.0f:20.0f)
 //底部安全距离 iphoneX->34 其他 0
 #define kBottomSafeHeight (iPhoneX?34.0f:0.0f)
-//横竖屏切换动画时长
-#define kRotateAnimationDuration 0.2f
 
 // 图片路径
 #define HZPlayerSrc(file)  [@"HZVideoPlayer.bundle" stringByAppendingPathComponent:file]

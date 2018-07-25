@@ -134,6 +134,7 @@
         self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
     }
 }
+
 - (void)addPlayer{
     //获取播放器相对于 superview 的坐标
     self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];

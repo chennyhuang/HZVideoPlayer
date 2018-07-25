@@ -52,11 +52,11 @@
 -(UIView *)playerView{
     if (!_playerView) {
         _playerView = [[HZVideoPlayer alloc] init];
-        _playerView.frame = CGRectMake(0, 300, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * (9.0/16));
+        _playerView.frame = CGRectMake(30, 300, [UIScreen mainScreen].bounds.size.width - 60, [UIScreen mainScreen].bounds.size.width * (9.0/16));
         _playerView.playerStyle = HZVideoPlayerStyleInner;
         _playerView.coverImageView.image = [UIImage imageNamed:@"placeHolder"];
         _playerView.autoPlay = YES;
-        _playerView.enableAutoRotate = NO;
+        _playerView.enableAutoRotate = YES;
     }
     return _playerView;
 }
