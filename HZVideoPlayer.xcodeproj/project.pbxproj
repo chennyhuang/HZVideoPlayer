@@ -76,7 +76,6 @@
 		EE510CE720FE186B002EC0DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayer.h; sourceTree = "<group>"; };
 		EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVideoPlayer.m; sourceTree = "<group>"; };
-		EE510CFA20FED40C002EC0DF /* HZVideoPlayerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayerCommon.h; sourceTree = "<group>"; };
 		EE510CFB20FEED52002EC0DF /* TopStyleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopStyleViewController.h; sourceTree = "<group>"; };
 		EE510CFC20FEED52002EC0DF /* TopStyleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopStyleViewController.m; sourceTree = "<group>"; };
 		EE510CFE20FEED62002EC0DF /* InnerStyleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InnerStyleViewController.h; sourceTree = "<group>"; };
@@ -124,6 +123,7 @@
 		EE510D5321070A3E002EC0DF /* HZVolumeBrightnessView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZVolumeBrightnessView.m; sourceTree = "<group>"; };
 		EE510D55210718AB002EC0DF /* HZForwardBackwardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZForwardBackwardView.h; sourceTree = "<group>"; };
 		EE510D56210718AB002EC0DF /* HZForwardBackwardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZForwardBackwardView.m; sourceTree = "<group>"; };
+		EE510D5821075A7E002EC0DF /* HZVideoPlayerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayerCommon.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,7 +215,11 @@
 		EE510CF920FED3A7002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
+				EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */,
+				EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */,
+				EE510D0820FF6B32002EC0DF /* HZPlayerView.h */,
+				EE510D0920FF6B32002EC0DF /* HZPlayerView.m */,
+				EE510D5821075A7E002EC0DF /* HZVideoPlayerCommon.h */,
 				EE510D502102E603002EC0DF /* HZGCDTimerManager.h */,
 				EE510D4F2102E603002EC0DF /* HZGCDTimerManager.m */,
 				EE510D4D210201E4002EC0DF /* HZLoadingView.h */,
@@ -226,15 +230,11 @@
 				EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */,
 				EE510D3A21005F7E002EC0DF /* HZSliderView.h */,
 				EE510D3B21005F7E002EC0DF /* HZSliderView.m */,
-				EE510CF320FE1B17002EC0DF /* HZVideoPlayer.h */,
-				EE510CF420FE1B17002EC0DF /* HZVideoPlayer.m */,
-				EE510CFA20FED40C002EC0DF /* HZVideoPlayerCommon.h */,
-				EE510D0820FF6B32002EC0DF /* HZPlayerView.h */,
-				EE510D0920FF6B32002EC0DF /* HZPlayerView.m */,
 				EE510D5221070A3E002EC0DF /* HZVolumeBrightnessView.h */,
 				EE510D5321070A3E002EC0DF /* HZVolumeBrightnessView.m */,
 				EE510D55210718AB002EC0DF /* HZForwardBackwardView.h */,
 				EE510D56210718AB002EC0DF /* HZForwardBackwardView.m */,
+				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
 			);
 			path = HZVideoPlayer;
 			sourceTree = "<group>";

@@ -43,6 +43,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 @property (nonatomic,strong) UIView *topToolView;
 /**底部工具条*/
 @property (nonatomic,strong) UIView *bottomToolView;
+/**加载失败，点击重试按钮*/
+@property (nonatomic,strong) UIButton *retryButton;
 /**播放或暂停按钮*/
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
 /**播放的当前时间*/
@@ -50,7 +52,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 /**返回按钮*/
 @property (nonatomic, strong) UIButton *backBtn;
 /**底部播放进度*/
-@property (nonatomic, strong) HZSliderView *bottomPgrogress;
+@property (nonatomic, strong) HZSliderView *bottomProgress;
 /**滑杆*/
 @property (nonatomic, strong) HZSliderView *slider;
 /**视频总时间*/
@@ -61,22 +63,26 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 @property (nonatomic,strong) HZVolumeBrightnessView *tipView;
 /**前进后退view*/
 @property (nonatomic,strong) HZForwardBackwardView *timeView;
-/**工具条和播放暂停按钮是否展示*/
-@property (nonatomic,assign) BOOL isToolBarShow;
 /**手势控制*/
 @property (nonatomic,strong) HZPlayerGestureControl *gestureControl;
-@property (nonatomic, assign) NSTimeInterval totalTime;//视频总时长
-@property (nonatomic,assign) BOOL isPrepareToPlay;
+/**视频总时长*/
+@property (nonatomic, assign) NSTimeInterval totalTime;
+/**快进快退后的时间点*/
 @property (nonatomic, assign) NSTimeInterval sumTime;
+/**屏幕亮度*/
 @property (nonatomic,assign) float brightness;
+/**音量滑杆*/
 @property (nonatomic,strong) UISlider *volumeViewSlider;
+/**音量*/
 @property (nonatomic,assign) float volume;
+/**工具条和播放暂停按钮是否展示*/
+@property (nonatomic,assign) BOOL isToolBarShow;
+/**标记视频是否可以播放*/
+@property (nonatomic,assign) BOOL isPrepareToPlay;
 @end
 
 @implementation HZPlayerView
 - (void)dealloc{
-//    [[self removeObservers];
-//    [self resetPlayer];]
     [self stop];
     NSLog(@"播放器被销毁了");
 }
@@ -92,7 +98,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     [super layoutSubviews];
     CGFloat viewW = self.bounds.size.width;
     CGFloat viewH = self.bounds.size.height;
-    CGFloat toolBarH = 40;
+    CGFloat toolBarH = 50;
     self.playerLayer.frame = self.bounds;
     self.topToolView.frame = CGRectMake(0, 0, viewW, toolBarH);
     self.bottomToolView.frame = CGRectMake(0, viewH - toolBarH, viewW, toolBarH);
@@ -104,7 +110,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     }
     self.playOrPauseBtn.frame = CGRectMake((viewW - playPauseBtnWH)*0.5, (viewH - playPauseBtnWH)*0.5, playPauseBtnWH, playPauseBtnWH);
     self.activity.frame = CGRectMake((viewW - activityWH)*0.5, (viewH - activityWH)*0.5, activityWH, activityWH);
-    self.bottomPgrogress.frame = CGRectMake(0, viewH - 2, viewW, 2);
+    self.bottomProgress.frame = CGRectMake(0, viewH - 2, viewW, 2);
     CGFloat backBtnWH = toolBarH;
     self.backBtn.frame = CGRectMake(10, 0, backBtnWH, backBtnWH);
     //bottomToolView相关
@@ -122,22 +128,25 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     CGFloat timeViewW = 180;
     CGFloat timeViewH = 90;
     self.timeView.frame = CGRectMake((viewW - timeViewW)*0.5, (viewH - timeViewH)*0.5, timeViewW, timeViewH);
+    CGFloat retryW = 128;
+    CGFloat retryH = 32;
+    self.retryButton.frame = CGRectMake((viewW - retryW)*0.5, (viewH - retryH)*0.5, retryW, retryH);
 }
 
 - (void)initUI{
     //属性初始化
     self.scalingMode = HZPlayerScalingModeAspectFit;
     self.playerOrientation = HZPlayerOrientationPortrait;
-//    self.autoPlay = YES;//默认自动播放
     
     [self addSubview:self.topToolView];
     [self addSubview:self.bottomToolView];
     [self addSubview:self.activity];
     [self addSubview:self.playOrPauseBtn];
-    [self addSubview:self.bottomPgrogress];
+    [self addSubview:self.bottomProgress];
     [self addSubview:self.backBtn];
     [self addSubview:self.tipView];
     [self addSubview:self.timeView];
+    [self addSubview:self.retryButton];
     
     [self.bottomToolView addSubview:self.currentTimeLabel];
     [self.bottomToolView addSubview:self.totalTimeLabel];
@@ -153,15 +162,25 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 #pragma mark getter setter
 - (void)setUrl:(NSURL *)url{
     _url = url;
+    [self removeObservers];
+    [self resetPlayer];
     self.playerItem = [AVPlayerItem playerItemWithAsset:[AVAsset assetWithURL:_url]];
     //创建
     _player = [AVPlayer playerWithPlayerItem:_playerItem];
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     _playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-//    _playerLayer.videoGravity = _fillMode;
     //放到最下面，防止遮挡
     [self.layer insertSublayer:_playerLayer atIndex:0];
-
+#warning ????????????
+    //如果需要减少性能消耗，在视频流暂停的时候，如果不需要使用播放状态可以把这个属性设为关闭
+    if (@available(iOS 9.0, *)) {
+        _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = NO;
+    }
+    
+    if (@available(iOS 10.0, *)) {
+        _playerItem.preferredForwardBufferDuration = 1;
+        _player.automaticallyWaitsToMinimizeStalling = NO;
+    }
     [self addObservers];
 }
 
@@ -169,17 +188,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     if (_playerItem == playerItem) {
         return;
     }
-    if (_playerItem) {
-        [self removeObservers];
-        [self resetPlayer];
-    }
     _playerItem = playerItem;
 }
-
-//- (void)setAutoPlay:(BOOL)autoPlay{
-//    _autoPlay = autoPlay;
-//    _autoPlay ?[self play]:[self pause];
-//}
 
 - (void)setPlayerState:(HZPlayerState)playerState{
     _playerState = playerState;
@@ -190,7 +200,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             if (self.player) {
                 [self.activity stop];
             }
-            
             break;
         case HZPlayerStateBuffering:
             if (self.player) {
@@ -198,7 +207,9 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             }
             break;
         case HZPlayerStateFailed:
-            
+            self.retryButton.hidden = NO;
+            [self removeObservers];
+            [self resetPlayer];
             break;
         case HZPlayerStateDone:
             if (self.playEnd) {
@@ -256,6 +267,23 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     return _bottomToolView;
 }
 
+- (UIButton *)retryButton{
+    if(!_retryButton){
+        _retryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _retryButton.hidden = YES;
+//        _retryButton.backgroundColor = [UIColor blackColor];
+        _retryButton.layer.borderWidth = 1;
+        _retryButton.layer.cornerRadius = 5;
+        _retryButton.layer.borderColor = [UIColor whiteColor].CGColor;
+        _retryButton.alpha = 0.9;
+        _retryButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        [_retryButton setTitle:@"加载失败，点击重试" forState:UIControlStateNormal];
+        [_retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_retryButton addTarget:self action:@selector(retry:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _retryButton;
+}
+
 - (UIButton *)backBtn {
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -299,16 +327,16 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     return _slider;
 }
 
-- (HZSliderView *)bottomPgrogress {
-    if (!_bottomPgrogress) {
-        _bottomPgrogress = [[HZSliderView alloc] init];
-        _bottomPgrogress.maximumTrackTintColor = [UIColor clearColor];
-        _bottomPgrogress.minimumTrackTintColor = [UIColor redColor];
-        _bottomPgrogress.bufferTrackTintColor  = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
-        _bottomPgrogress.sliderHeight = 2;
-        _bottomPgrogress.isHideSliderBlock = YES;
+- (HZSliderView *)bottomProgress {
+    if (!_bottomProgress) {
+        _bottomProgress = [[HZSliderView alloc] init];
+        _bottomProgress.maximumTrackTintColor = [UIColor clearColor];
+        _bottomProgress.minimumTrackTintColor = [UIColor redColor];
+        _bottomProgress.bufferTrackTintColor  = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+        _bottomProgress.sliderHeight = 2;
+        _bottomProgress.isHideSliderBlock = YES;
     }
-    return _bottomPgrogress;
+    return _bottomProgress;
 }
 
 - (UILabel *)totalTimeLabel {
@@ -385,6 +413,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         @weakify(self)
         _gestureControl.triggerCondition = ^BOOL(HZPlayerGestureControl * _Nonnull control, HZPlayerGestureType type, UIGestureRecognizer * _Nonnull gesture, UITouch *touch) {
             @strongify(self)
+            if(!self.isPrepareToPlay) return NO;
             CGPoint point = [touch locationInView:self];
             if (self.isToolBarShow) {
                 BOOL topContains = CGRectContainsPoint(self.topToolView.frame, point);
@@ -409,7 +438,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         
         _gestureControl.singleTapped = ^(HZPlayerGestureControl * _Nonnull control) {
             @strongify(self)
-            NSLog(@"singleTapped");
+//            NSLog(@"singleTapped");
             self.isToolBarShow == YES? [self singleTapHideItems]:[self singleTapShowItems];
         };
         
@@ -422,7 +451,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             if (direction == HZPanDirectionH) {
                 self.sumTime = CMTimeGetSeconds(self.player.currentTime);
             }
-            NSLog(@"beganPan");
+//            NSLog(@"beganPan");
             [self singleTapHideItems];
         };
         
@@ -449,7 +478,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
                 } else if(location == HZPanLocationRight) {
                     //调节声音
                     self.volume -= (velocity.y) / 10000;
-                    [self.tipView updateProgress:self.volume withVolumeBrightnessType:HZVolumeBrightnessTypeVolume];
+//                    [self.tipView updateProgress:self.volume withVolumeBrightnessType:HZVolumeBrightnessTypeVolume];
                 }
             }
             
@@ -459,11 +488,11 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             @strongify(self)
              if (direction == HZPanDirectionH && self.sumTime >= 0 && self.totalTime > 0) {
                  [self sliderChange:self.sumTime/self.totalTime];
-//                 [self.timeView updateTime:self.sumTime totalTime:self.totalTime];
+                 [self.timeView updateTime:self.sumTime totalTime:self.totalTime];
              }
             [self singleTapHideItems];
             
-            NSLog(@"endedPan");
+//            NSLog(@"endedPan");
         };
         
         _gestureControl.pinched = ^(HZPlayerGestureControl * _Nonnull control, float scale) {
@@ -485,13 +514,13 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     self.backBtn.hidden = YES;
     self.topToolView.hidden = YES;
     self.bottomToolView.hidden = YES;
-    self.bottomPgrogress.hidden = YES;
+    self.bottomProgress.hidden = YES;
     self.playOrPauseBtn.hidden = YES;
     self.isToolBarShow = NO;
 }
 
 - (void)rotateEndShowItems{
-    self.bottomPgrogress.hidden = NO;
+    self.bottomProgress.hidden = NO;
 }
 
 //暂停
@@ -507,6 +536,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         if (!self.playerItem.isPlaybackLikelyToKeepUp) {
             [self bufferingSomeSecond];
         } else {
+//            NSLog(@"播放");
             self.playerState = HZPlayerStatePlaying;
             [self.player play];
         }
@@ -538,7 +568,13 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     }
     // 当手机静音按钮打开时，设置应用仍然可以播放声音
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+//    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+}
+
+//加载失败，点击重试
+- (void)retry:(UIButton *)button{
+    button.hidden = YES;
+    [self setUrl:_url];
 }
 
 #pragma mark - 缓冲较差时候
@@ -567,6 +603,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     } else {
         if (!self.playOrPauseBtn.selected) {
             [self play];
+        } else {
+            [self.activity stop];
         }
     }
 }
@@ -584,6 +622,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVPlayerItemDidPlayToEndTimeNotification
                                                   object:_player.currentItem];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AVSystemController_SystemVolumeDidChangeNotification" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
     [_player removeTimeObserver:_timeObserver];
@@ -613,6 +652,11 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(interruption:)
                                                  name:AVAudioSessionInterruptionNotification
+                                               object:nil];
+    //监听手机按键音量
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(volumeDidChangeNotification:)
+                                                 name:@"AVSystemController_SystemVolumeDidChangeNotification"
                                                object:nil];
     [_playerItem addObserver:self
                   forKeyPath:@"status"
@@ -675,8 +719,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     self.totalTimeLabel.text = @"00:00";
     self.slider.value = 0;
     self.slider.bufferValue = 0;
-    self.bottomPgrogress.value = 0;
-    self.bottomPgrogress.bufferValue = 0;
+    self.bottomProgress.value = 0;
+    self.bottomProgress.bufferValue = 0;
 }
 
 //视频播放完成
@@ -685,10 +729,11 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 }
 
 - (void)seekToTime:(NSTimeInterval)time completionHandler:(void (^ __nullable)(BOOL finished))completionHandler {
+    [self.player pause];
     CMTime seekTime = CMTimeMake(time, 1); //kCMTimeZero
 //    [_playerItem cancelPendingSeeks];
     //如果需要精准定位，那么把toleranceBefore:和toleranceAfter:的参数都设置为kCMTimeZero即可
-    [_player seekToTime:seekTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:completionHandler];
+    [_player seekToTime:seekTime toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1) completionHandler:completionHandler];
 }
 
 - (void)singleTapHideItems{
@@ -698,7 +743,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     self.bottomToolView.hidden = YES;
     self.playOrPauseBtn.hidden = YES;
     self.backBtn.hidden = YES;
-    self.bottomPgrogress.hidden = NO;
+    self.bottomProgress.hidden = NO;
 }
 
 - (void)singleTapShowItems{
@@ -714,7 +759,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     
     self.bottomToolView.hidden = NO;
     self.playOrPauseBtn.hidden = NO;
-    self.bottomPgrogress.hidden = YES;
+    self.bottomProgress.hidden = YES;
 }
 
 - (void)playPause:(UIButton *)button{
@@ -798,8 +843,8 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         self.slider.bufferValue = bufferPer;
         self.slider.value = currentPer;
         
-        self.bottomPgrogress.bufferValue = bufferPer;
-        self.bottomPgrogress.value = currentPer;
+        self.bottomProgress.bufferValue = bufferPer;
+        self.bottomProgress.value = currentPer;
         
         self.currentTimeLabel.text = [self getTime:currentTime];
         self.totalTimeLabel.text = [self getTime:self.totalTime];
@@ -834,11 +879,15 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 }
 
 - (void)appDidEnterBackground:(NSNotification *)note{
+//    NSLog(@"进入后台");
+//    self.isBackground = YES;
     [self pause];
-    [self.activity stop];
 }
 
 - (void)appDidEnterPlayground:(NSNotification *)note{
+//    NSLog(@"进入前台");
+//    self.isBackground = NO;
+    [self.activity stop];
     if (!self.playOrPauseBtn.selected) {
         [self play];
     } else {
@@ -847,6 +896,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 }
 
 - (void)handleRouteChange:(NSNotification *)notification{
+
     NSDictionary *info = notification.userInfo;
     NSInteger routeChangeReason = [[info valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
     
@@ -877,6 +927,10 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 
 //闹铃等中断
 - (void)interruption:(NSNotification *)notification {
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground ||
+        [UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+        return;
+    }
     NSDictionary *interuptionDict = notification.userInfo;
     NSInteger interuptionType = [[interuptionDict valueForKey:AVAudioSessionInterruptionTypeKey] integerValue];
     NSNumber  *seccondReason  = [[notification userInfo] objectForKey:AVAudioSessionInterruptionOptionKey] ;
@@ -897,11 +951,17 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     switch ([seccondReason integerValue]) {
         case AVAudioSessionInterruptionOptionShouldResume:
             //恢复播放
-//            NSLog(@"恢复播放");
+//            NSLog(@"恢复中断 --");
             break;
         default:
             break;
     }
+}
+
+- (void)volumeDidChangeNotification:(NSNotification *)notification {
+    float volume = [[[notification userInfo] objectForKey:@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+    NSLog(@"音量变化 %f",volume);
+    [self.tipView updateProgress:volume withVolumeBrightnessType:HZVolumeBrightnessTypeVolume];
 }
 
 #pragma mark 定时器相关
@@ -944,7 +1004,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     self.slider.isdragging = YES;
     NSString *currentTimeString = [self getTime:self.totalTime*value];
     self.currentTimeLabel.text = currentTimeString;
-    self.bottomPgrogress.value = value;
+    self.bottomProgress.value = value;
 }
 
 // 滑块拖动结束
@@ -964,16 +1024,23 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 - (void)sliderChange:(float)value{
     if (self.totalTime > 0) {
         self.slider.isdragging = YES;
+//        [self.activity start];
         @weakify(self)
         NSString *currentTimeString = [self getTime:self.totalTime*value];
         self.currentTimeLabel.text = currentTimeString;
-        self.bottomPgrogress.value = value;
+        self.bottomProgress.value = value;
+        self.bottomProgress.bufferValue = value;
+        self.slider.value = value;
+        self.slider.bufferValue = value;
         [self seekToTime:self.totalTime*value completionHandler:^(BOOL finished) {
             @strongify(self)
             if (finished) {
                 self.slider.isdragging = NO;
                 if (!self.playOrPauseBtn.selected) {
+//                    NSLog(@"seek 回调");
                     [self play];
+                } else {
+//                    [self.activity stop];
                 }
             }
         }];

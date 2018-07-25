@@ -1,9 +1,9 @@
 //
 //  HZLoadingView.h
-//  HZLoadingViewProject
+//  HZVideoPlayer
 //
-//  Created by 畅三江 on 2017/12/24.
-//  Copyright © 2017年 畅三江. All rights reserved.
+//  Created by huangzhenyu on 2018/7/22.
+//  Copyright © 2018年 huangzhenyu. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

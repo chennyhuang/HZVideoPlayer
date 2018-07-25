@@ -28,7 +28,7 @@
     [super layoutSubviews];
     CGFloat viewW = self.frame.size.width;
     CGFloat timeLabelH = 40;
-    self.timeLabel.frame = CGRectMake(0, 0, viewW, timeLabelH);
+    self.timeLabel.frame = CGRectMake(-viewW*0.5, 0, viewW*2, timeLabelH);
     self.progressView.frame = CGRectMake(0, timeLabelH + 15, viewW, 2);
 }
 
@@ -46,7 +46,7 @@
     NSMutableAttributedString *timeString = [[NSMutableAttributedString alloc] initWithString:normalString];
     [timeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, sumTimeStr.length)];
     
-    [timeString addAttribute:NSForegroundColorAttributeName value:[[UIColor lightGrayColor] colorWithAlphaComponent:0.8] range:NSMakeRange(sumTimeStr.length+1, totalTimeStr.length)];
+    [timeString addAttribute:NSForegroundColorAttributeName value:[[UIColor whiteColor] colorWithAlphaComponent:0.6] range:NSMakeRange(sumTimeStr.length+1, totalTimeStr.length)];
     
     self.timeLabel.attributedText = timeString;
     
@@ -92,7 +92,7 @@
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.textAlignment = NSTextAlignmentCenter;
         _timeLabel.textColor = [UIColor whiteColor];
-        _timeLabel.font = [UIFont systemFontOfSize:25];
+        _timeLabel.font = [UIFont systemFontOfSize:33];
     }
     return _timeLabel;
 }

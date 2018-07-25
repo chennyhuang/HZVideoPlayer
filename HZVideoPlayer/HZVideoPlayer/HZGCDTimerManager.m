@@ -1,10 +1,11 @@
 //
-//  CLGCDTimerManager.m
-//  GCDTimer
+//  HZGCDTimerManager.m
+//  HZVideoPlayer
 //
-//  Created by JmoVxia on 2017/11/23.
-//  Copyright © 2017年 JmoVxia. All rights reserved.
+//  Created by huangzhenyu on 2018/7/23.
+//  Copyright © 2018年 huangzhenyu. All rights reserved.
 //
+
 
 #import "HZGCDTimerManager.h"
 

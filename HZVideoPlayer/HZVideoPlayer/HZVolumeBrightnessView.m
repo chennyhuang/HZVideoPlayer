@@ -36,7 +36,7 @@
     self.iconImageView.frame = CGRectMake(imageX, (viewH - imageWH)*0.5, imageWH, imageWH);
     CGFloat leftEdge = 10;
     CGFloat rightEdge = 20;
-    CGFloat progressH = 2;
+    CGFloat progressH = 1;
     self.progressView.frame = CGRectMake(imageWH + leftEdge + imageX, (viewH - progressH)*0.5, viewW - imageWH - leftEdge - rightEdge - imageX, progressH);
 }
 

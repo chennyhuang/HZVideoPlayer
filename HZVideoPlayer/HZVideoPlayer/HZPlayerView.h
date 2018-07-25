@@ -28,8 +28,7 @@ typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
 @property (nonatomic, strong) NSURL *url;
 /**播放器当前的方向*/
 @property (nonatomic, assign) HZPlayerOrientation playerOrientation;
-/**播放器是否自动播放(默认 YES 自动播放)*/
-//@property (nonatomic,assign) BOOL autoPlay;
+
 @property (nonatomic,copy) void(^rotateToPortrait)(void);
 @property (nonatomic,copy) void(^rotateToLandScape)(void);
 /**播放结束*/

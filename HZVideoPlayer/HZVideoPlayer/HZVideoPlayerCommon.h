@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger,HZVideoPlayerStyle) {
 #define KAppHeight [UIScreen mainScreen].bounds.size.height
 #define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 //状态栏高度，iphoneX->44 其他 20
-#define kStatusBar_Height [UIApplication sharedApplication].statusBarFrame.size.height
+#define kNormalStatusBar_Height (iPhoneX?44.0f:20.0f)
 //底部安全距离 iphoneX->34 其他 0
 #define kBottomSafeHeight (iPhoneX?34.0f:0.0f)
 //横竖屏切换动画时长

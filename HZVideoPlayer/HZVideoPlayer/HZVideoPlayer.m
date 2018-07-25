@@ -21,7 +21,6 @@
 @property (nonatomic,strong) UIView *containerView;//放置播放界面，播放控制界面
 
 @property (nonatomic,strong) HZPlayerView *playerView;
-
 @end
 
 @implementation HZVideoPlayer
@@ -62,7 +61,7 @@
     
     CGFloat statusViewH = 0;
     if (self.playerStyle == HZVideoPlayerStyleTop) {
-        statusViewH = kStatusBar_Height;
+        statusViewH = kNormalStatusBar_Height;
     } else {
         statusViewH = 0;
     }
@@ -71,9 +70,6 @@
     self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
     self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH);
     self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
-//    self.containerView.frame = CGRectMake(0, statusViewH, playerW, playerH);
-    
-//    self.containerOriginRect = self.containerView.frame;
     if (_playerView) {
         self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
     }
@@ -157,13 +153,16 @@
 
 - (void)startPlay{
     //获取播放器相对于 keyWindow 的坐标
-    self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.keyWindow];
+    self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
     //添加黑色遮罩
     [self.superview addSubview:self.containerView];
     self.containerView.frame = self.containerOriginRect;
+    
     //添加播放器
     self.playerView = [[HZPlayerView alloc] init];
     [self.superview addSubview:self.playerView];
+    self.playerView.frame = self.containerOriginRect;
+    
     @weakify(self);
     self.playerView.rotateToPortrait = ^{
         @strongify(self);
@@ -189,7 +188,6 @@
         }];
     };
     
-    self.playerView.frame = self.containerOriginRect;
     self.playerView.url = self.url;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
@@ -211,10 +209,11 @@
     self.containerView.hidden = YES;
     self.playerView.playerOrientation = HZPlayerOrientationPortrait;
     [self.playerView rotateBeginHideItems];
-    
+    //竖屏时候，再将containerView playerView 移到superView上面
+    [self.superview addSubview:self.containerView];
+    [self.superview addSubview:self.playerView];
+
     [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//        self.containerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
-//        self.playerView.transform = (orientation==UIDeviceOrientationPortrait)?CGAffineTransformIdentity:CGAffineTransformMakeRotation(M_PI);
         self.containerView.transform = CGAffineTransformIdentity;
         self.playerView.transform = CGAffineTransformIdentity;
         
@@ -238,12 +237,15 @@
     self.playerView.playerOrientation = HZPlayerOrientationLandScape;
     [self.playerView rotateBeginHideItems];
     
+    //横屏时候将containerView playerView 移到keyWindow上，解决有热点打开的情况下，左侧20的空隙BUG
+    [self.keyWindow addSubview:self.containerView];
+    [self.keyWindow addSubview:self.playerView];
     [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
         self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
         self.containerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
         if (iPhoneX) {
-            self.playerView.frame = CGRectMake(0, kStatusBar_Height, kAPPWidth, KAppHeight - kStatusBar_Height - kBottomSafeHeight);
+            self.playerView.frame = CGRectMake(0, kNormalStatusBar_Height, kAPPWidth, KAppHeight - kNormalStatusBar_Height - kBottomSafeHeight);
         } else {
             self.playerView.frame = CGRectMake(0, 0, kAPPWidth, KAppHeight);
         }
