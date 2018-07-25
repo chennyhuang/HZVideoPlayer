@@ -879,13 +879,13 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 }
 
 - (void)appDidEnterBackground:(NSNotification *)note{
-//    NSLog(@"进入后台");
+    NSLog(@"进入后台");
 //    self.isBackground = YES;
     [self pause];
 }
 
 - (void)appDidEnterPlayground:(NSNotification *)note{
-//    NSLog(@"进入前台");
+    NSLog(@"进入前台");
 //    self.isBackground = NO;
     [self.activity stop];
     if (!self.playOrPauseBtn.selected) {
@@ -938,20 +938,20 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
         case AVAudioSessionInterruptionTypeBegan:
         {
             //收到中断，暂停播放
-//            NSLog(@"收到中断");
+            NSLog(@"收到中断");
             [self pause];
             self.playOrPauseBtn.selected = YES;
             break;
         }
         case AVAudioSessionInterruptionTypeEnded:
             //系统中断结束
-//            NSLog(@"结束中断");
+            NSLog(@"结束中断");
             break;
     }
     switch ([seccondReason integerValue]) {
         case AVAudioSessionInterruptionOptionShouldResume:
             //恢复播放
-//            NSLog(@"恢复中断 --");
+            NSLog(@"恢复中断 --");
             break;
         default:
             break;

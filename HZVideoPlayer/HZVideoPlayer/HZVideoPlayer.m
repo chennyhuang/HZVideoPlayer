@@ -162,7 +162,7 @@
     self.playerView = [[HZPlayerView alloc] init];
     [self.superview addSubview:self.playerView];
     self.playerView.frame = self.containerOriginRect;
-    
+
     @weakify(self);
     self.playerView.rotateToPortrait = ^{
         @strongify(self);
@@ -212,7 +212,7 @@
     //竖屏时候，再将containerView playerView 移到superView上面
     [self.superview addSubview:self.containerView];
     [self.superview addSubview:self.playerView];
-
+    self.playerView.userInteractionEnabled = NO;
     [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerView.transform = CGAffineTransformIdentity;
         self.playerView.transform = CGAffineTransformIdentity;
@@ -221,6 +221,7 @@
         self.playerView.frame = self.containerOriginRect;
     } completion:^(BOOL finished) {
         [self.playerView rotateEndShowItems];
+        self.playerView.userInteractionEnabled = YES;
         if (completion) {
             completion();
         }
@@ -240,6 +241,7 @@
     //横屏时候将containerView playerView 移到keyWindow上，解决有热点打开的情况下，左侧20的空隙BUG
     [self.keyWindow addSubview:self.containerView];
     [self.keyWindow addSubview:self.playerView];
+    self.playerView.userInteractionEnabled = NO;
     [UIView animateWithDuration:duration delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
         self.playerView.transform = (orientation==UIDeviceOrientationLandscapeRight)?CGAffineTransformMakeRotation(-M_PI/2):CGAffineTransformMakeRotation(M_PI/2);
@@ -251,6 +253,7 @@
         }
     } completion:^(BOOL finished) {
         [self.playerView rotateEndShowItems];
+        self.playerView.userInteractionEnabled = YES;
         if (completion) {
             completion();
         }
