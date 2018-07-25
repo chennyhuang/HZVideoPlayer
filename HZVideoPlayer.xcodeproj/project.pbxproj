@@ -21,16 +21,6 @@
 		EE510D0420FF203A002EC0DF /* HZVideoPlayer.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */; };
 		EE510D0A20FF6B32002EC0DF /* HZPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D0920FF6B32002EC0DF /* HZPlayerView.m */; };
 		EE510D0C20FF73BB002EC0DF /* rzjt.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = EE510D0B20FF73BB002EC0DF /* rzjt.MP4 */; };
-		EE510D3021003C88002EC0DF /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D1821003C87002EC0DF /* MASCompositeConstraint.m */; };
-		EE510D3121003C88002EC0DF /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D1B21003C87002EC0DF /* MASConstraint.m */; };
-		EE510D3221003C88002EC0DF /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D1D21003C87002EC0DF /* MASConstraintMaker.m */; };
-		EE510D3321003C88002EC0DF /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D1F21003C87002EC0DF /* MASLayoutConstraint.m */; };
-		EE510D3421003C88002EC0DF /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2321003C87002EC0DF /* MASViewAttribute.m */; };
-		EE510D3521003C88002EC0DF /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2521003C87002EC0DF /* MASViewConstraint.m */; };
-		EE510D3621003C88002EC0DF /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2721003C87002EC0DF /* NSArray+MASAdditions.m */; };
-		EE510D3721003C88002EC0DF /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2A21003C87002EC0DF /* NSLayoutConstraint+MASDebugAdditions.m */; };
-		EE510D3821003C88002EC0DF /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2C21003C87002EC0DF /* View+MASAdditions.m */; };
-		EE510D3921003C88002EC0DF /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D2F21003C87002EC0DF /* ViewController+MASAdditions.m */; };
 		EE510D3C21005F7E002EC0DF /* HZSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D3B21005F7E002EC0DF /* HZSliderView.m */; };
 		EE510D3F21005F9D002EC0DF /* UIView+HZFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D3E21005F9D002EC0DF /* UIView+HZFrame.m */; };
 		EE510D4221016AE1002EC0DF /* HZPlayerGestureControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4021016AE0002EC0DF /* HZPlayerGestureControl.m */; };
@@ -38,6 +28,7 @@
 		EE510D512102E603002EC0DF /* HZGCDTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D4F2102E603002EC0DF /* HZGCDTimerManager.m */; };
 		EE510D5421070A3E002EC0DF /* HZVolumeBrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D5321070A3E002EC0DF /* HZVolumeBrightnessView.m */; };
 		EE510D57210718AB002EC0DF /* HZForwardBackwardView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D56210718AB002EC0DF /* HZForwardBackwardView.m */; };
+		EE510D5B21084FF7002EC0DF /* scrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE510D5A21084FF7002EC0DF /* scrollViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,31 +75,6 @@
 		EE510D0820FF6B32002EC0DF /* HZPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZPlayerView.h; sourceTree = "<group>"; };
 		EE510D0920FF6B32002EC0DF /* HZPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZPlayerView.m; sourceTree = "<group>"; };
 		EE510D0B20FF73BB002EC0DF /* rzjt.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = rzjt.MP4; sourceTree = "<group>"; };
-		EE510D1721003C87002EC0DF /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
-		EE510D1821003C87002EC0DF /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
-		EE510D1921003C87002EC0DF /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
-		EE510D1A21003C87002EC0DF /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
-		EE510D1B21003C87002EC0DF /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
-		EE510D1C21003C87002EC0DF /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
-		EE510D1D21003C87002EC0DF /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
-		EE510D1E21003C87002EC0DF /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
-		EE510D1F21003C87002EC0DF /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
-		EE510D2021003C87002EC0DF /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
-		EE510D2121003C87002EC0DF /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
-		EE510D2221003C87002EC0DF /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
-		EE510D2321003C87002EC0DF /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
-		EE510D2421003C87002EC0DF /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
-		EE510D2521003C87002EC0DF /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
-		EE510D2621003C87002EC0DF /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
-		EE510D2721003C87002EC0DF /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
-		EE510D2821003C87002EC0DF /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		EE510D2921003C87002EC0DF /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
-		EE510D2A21003C87002EC0DF /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
-		EE510D2B21003C87002EC0DF /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
-		EE510D2C21003C87002EC0DF /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
-		EE510D2D21003C87002EC0DF /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		EE510D2E21003C87002EC0DF /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
-		EE510D2F21003C87002EC0DF /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		EE510D3A21005F7E002EC0DF /* HZSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZSliderView.h; sourceTree = "<group>"; };
 		EE510D3B21005F7E002EC0DF /* HZSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZSliderView.m; sourceTree = "<group>"; };
 		EE510D3D21005F9D002EC0DF /* UIView+HZFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+HZFrame.h"; sourceTree = "<group>"; };
@@ -124,6 +90,8 @@
 		EE510D55210718AB002EC0DF /* HZForwardBackwardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZForwardBackwardView.h; sourceTree = "<group>"; };
 		EE510D56210718AB002EC0DF /* HZForwardBackwardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HZForwardBackwardView.m; sourceTree = "<group>"; };
 		EE510D5821075A7E002EC0DF /* HZVideoPlayerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HZVideoPlayerCommon.h; sourceTree = "<group>"; };
+		EE510D5921084FF7002EC0DF /* scrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scrollViewController.h; sourceTree = "<group>"; };
+		EE510D5A21084FF7002EC0DF /* scrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = scrollViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,12 +143,13 @@
 		EE510CC020FE186B002EC0DF /* HZVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				EE510D1621003C87002EC0DF /* Masonry */,
 				EE510CF920FED3A7002EC0DF /* HZVideoPlayer */,
 				EE510CFB20FEED52002EC0DF /* TopStyleViewController.h */,
 				EE510CFC20FEED52002EC0DF /* TopStyleViewController.m */,
 				EE510CFE20FEED62002EC0DF /* InnerStyleViewController.h */,
 				EE510CFF20FEED62002EC0DF /* InnerStyleViewController.m */,
+				EE510D5921084FF7002EC0DF /* scrollViewController.h */,
+				EE510D5A21084FF7002EC0DF /* scrollViewController.m */,
 				EE510CC120FE186B002EC0DF /* AppDelegate.h */,
 				EE510CC220FE186B002EC0DF /* AppDelegate.m */,
 				EE510CC420FE186B002EC0DF /* ViewController.h */,
@@ -237,38 +206,6 @@
 				EE510D0320FF203A002EC0DF /* HZVideoPlayer.bundle */,
 			);
 			path = HZVideoPlayer;
-			sourceTree = "<group>";
-		};
-		EE510D1621003C87002EC0DF /* Masonry */ = {
-			isa = PBXGroup;
-			children = (
-				EE510D1721003C87002EC0DF /* MASCompositeConstraint.h */,
-				EE510D1821003C87002EC0DF /* MASCompositeConstraint.m */,
-				EE510D1921003C87002EC0DF /* MASConstraint+Private.h */,
-				EE510D1A21003C87002EC0DF /* MASConstraint.h */,
-				EE510D1B21003C87002EC0DF /* MASConstraint.m */,
-				EE510D1C21003C87002EC0DF /* MASConstraintMaker.h */,
-				EE510D1D21003C87002EC0DF /* MASConstraintMaker.m */,
-				EE510D1E21003C87002EC0DF /* MASLayoutConstraint.h */,
-				EE510D1F21003C87002EC0DF /* MASLayoutConstraint.m */,
-				EE510D2021003C87002EC0DF /* Masonry.h */,
-				EE510D2121003C87002EC0DF /* MASUtilities.h */,
-				EE510D2221003C87002EC0DF /* MASViewAttribute.h */,
-				EE510D2321003C87002EC0DF /* MASViewAttribute.m */,
-				EE510D2421003C87002EC0DF /* MASViewConstraint.h */,
-				EE510D2521003C87002EC0DF /* MASViewConstraint.m */,
-				EE510D2621003C87002EC0DF /* NSArray+MASAdditions.h */,
-				EE510D2721003C87002EC0DF /* NSArray+MASAdditions.m */,
-				EE510D2821003C87002EC0DF /* NSArray+MASShorthandAdditions.h */,
-				EE510D2921003C87002EC0DF /* NSLayoutConstraint+MASDebugAdditions.h */,
-				EE510D2A21003C87002EC0DF /* NSLayoutConstraint+MASDebugAdditions.m */,
-				EE510D2B21003C87002EC0DF /* View+MASAdditions.h */,
-				EE510D2C21003C87002EC0DF /* View+MASAdditions.m */,
-				EE510D2D21003C87002EC0DF /* View+MASShorthandAdditions.h */,
-				EE510D2E21003C87002EC0DF /* ViewController+MASAdditions.h */,
-				EE510D2F21003C87002EC0DF /* ViewController+MASAdditions.m */,
-			);
-			path = Masonry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -407,27 +344,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE510D4221016AE1002EC0DF /* HZPlayerGestureControl.m in Sources */,
-				EE510D3521003C88002EC0DF /* MASViewConstraint.m in Sources */,
 				EE510D5421070A3E002EC0DF /* HZVolumeBrightnessView.m in Sources */,
 				EE510CF520FE1B17002EC0DF /* HZVideoPlayer.m in Sources */,
-				EE510D3421003C88002EC0DF /* MASViewAttribute.m in Sources */,
 				EE510CC620FE186B002EC0DF /* ViewController.m in Sources */,
+				EE510D5B21084FF7002EC0DF /* scrollViewController.m in Sources */,
 				EE510CD120FE186B002EC0DF /* main.m in Sources */,
 				EE510D3F21005F9D002EC0DF /* UIView+HZFrame.m in Sources */,
 				EE510D3C21005F7E002EC0DF /* HZSliderView.m in Sources */,
-				EE510D3021003C88002EC0DF /* MASCompositeConstraint.m in Sources */,
 				EE510D4E210201E4002EC0DF /* HZLoadingView.m in Sources */,
-				EE510D3221003C88002EC0DF /* MASConstraintMaker.m in Sources */,
-				EE510D3821003C88002EC0DF /* View+MASAdditions.m in Sources */,
-				EE510D3321003C88002EC0DF /* MASLayoutConstraint.m in Sources */,
-				EE510D3921003C88002EC0DF /* ViewController+MASAdditions.m in Sources */,
-				EE510D3121003C88002EC0DF /* MASConstraint.m in Sources */,
 				EE510D512102E603002EC0DF /* HZGCDTimerManager.m in Sources */,
 				EE510D0020FEED62002EC0DF /* InnerStyleViewController.m in Sources */,
 				EE510CFD20FEED52002EC0DF /* TopStyleViewController.m in Sources */,
 				EE510D57210718AB002EC0DF /* HZForwardBackwardView.m in Sources */,
-				EE510D3621003C88002EC0DF /* NSArray+MASAdditions.m in Sources */,
-				EE510D3721003C88002EC0DF /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				EE510CC320FE186B002EC0DF /* AppDelegate.m in Sources */,
 				EE510D0A20FF6B32002EC0DF /* HZPlayerView.m in Sources */,
 			);

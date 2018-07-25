@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "TopStyleViewController.h"
 #import "InnerStyleViewController.h"
+#import "scrollViewController.h"
 
 @interface ViewController ()
 @end
@@ -32,6 +33,14 @@
     [innerBtn addTarget:self action:@selector(innerStyleClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:innerBtn];
     
+    UIButton *scrollBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [scrollBtn setTitle:@"滚动样式" forState:UIControlStateNormal];
+    [scrollBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    scrollBtn.titleLabel.font = [UIFont systemFontOfSize:20];
+    scrollBtn.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - 100)*0.5, 400, 100, 50);
+    [scrollBtn addTarget:self action:@selector(scrollStyleClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:scrollBtn];
+    
 }
 
 - (void)topStyleClick{
@@ -44,4 +53,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)scrollStyleClick{
+    scrollViewController *vc = [[scrollViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

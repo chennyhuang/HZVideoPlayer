@@ -45,8 +45,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 @property (nonatomic,strong) UIView *bottomToolView;
 /**加载失败，点击重试按钮*/
 @property (nonatomic,strong) UIButton *retryButton;
-/**播放或暂停按钮*/
-@property (nonatomic, strong) UIButton *playOrPauseBtn;
 /**播放的当前时间*/
 @property (nonatomic, strong) UILabel *currentTimeLabel;
 /**返回按钮*/
@@ -171,7 +169,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     _playerLayer.backgroundColor = [UIColor blackColor].CGColor;
     //放到最下面，防止遮挡
     [self.layer insertSublayer:_playerLayer atIndex:0];
-#warning ????????????
     //如果需要减少性能消耗，在视频流暂停的时候，如果不需要使用播放状态可以把这个属性设为关闭
     if (@available(iOS 9.0, *)) {
         _playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = NO;
@@ -208,8 +205,6 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             break;
         case HZPlayerStateFailed:
             self.retryButton.hidden = NO;
-            [self removeObservers];
-            [self resetPlayer];
             break;
         case HZPlayerStateDone:
             if (self.playEnd) {
@@ -568,7 +563,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     }
     // 当手机静音按钮打开时，设置应用仍然可以播放声音
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-//    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
 //加载失败，点击重试
@@ -714,6 +709,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
     if (_playerItem) {
         _playerItem = nil;
     }
+    
     self.totalTime = 0;
     self.currentTimeLabel.text = @"00:00";
     self.totalTimeLabel.text = @"00:00";
@@ -811,18 +807,9 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
                 self.playerState = HZPlayerStateFailed;
             }
         } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-//            // 计算缓冲进度
-            
+
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
-//             当缓冲是空的时候
-//            NSLog(@"缓冲中");
-            
-//            if (self.playerItem.isPlaybackBufferEmpty) {
-//                [self playerBufferingBegin];
-//                NSLog(@"缓冲为空，缓冲中");
-//            } else {
-                self.playerState = HZPlayerStateBuffering;
-//            }
+            self.playerState = HZPlayerStateBuffering;
         } else {
             [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
@@ -880,13 +867,17 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 
 - (void)appDidEnterBackground:(NSNotification *)note{
     NSLog(@"进入后台");
-//    self.isBackground = YES;
+    if (self.playerState == HZPlayerStateFailed) {
+        return;
+    }
     [self pause];
 }
 
 - (void)appDidEnterPlayground:(NSNotification *)note{
     NSLog(@"进入前台");
-//    self.isBackground = NO;
+    if (self.playerState == HZPlayerStateFailed) {
+        return;
+    }
     [self.activity stop];
     if (!self.playOrPauseBtn.selected) {
         [self play];
@@ -896,7 +887,9 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 }
 
 - (void)handleRouteChange:(NSNotification *)notification{
-
+    if (self.playerState == HZPlayerStateFailed) {
+        return;
+    }
     NSDictionary *info = notification.userInfo;
     NSInteger routeChangeReason = [[info valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
     
@@ -929,6 +922,9 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 - (void)interruption:(NSNotification *)notification {
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground ||
         [UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+        return;
+    }
+    if (self.playerState == HZPlayerStateFailed) {
         return;
     }
     NSDictionary *interuptionDict = notification.userInfo;

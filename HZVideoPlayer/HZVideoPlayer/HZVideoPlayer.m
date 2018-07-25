@@ -8,7 +8,6 @@
 
 #import "HZVideoPlayer.h"
 #import "HZPlayerView.h"
-#import "Masonry.h"
 
 @interface HZVideoPlayer()
 @property (nonatomic,assign) CGRect selfOriginRect;//自身初始frame
@@ -38,6 +37,11 @@
 }
 
 - (void)initUI{
+    //默认自动播放
+    self.autoPlay = YES;
+    //默认可以横竖屏旋转
+    self.enableAutoRotate = YES;
+    
     self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     self.backgroundColor = [UIColor clearColor];
     [self addSubview:self.statusView];
@@ -78,9 +82,14 @@
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     [self initFrame];
+    if (self.autoPlay) {
+        [self addPlayer];
+    }
 }
 
 #pragma mark getter setter
+
+
 - (UIButton *)playButton{
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -111,14 +120,6 @@
     return _containerView;
 }
 
-//- (HZPlayerView *)playerView{
-//    if (!_playerView) {
-//        _playerView = [[HZPlayerView alloc] init];
-////        _playerView.url = [NSURL URLWithString:@"http://220.249.115.46:18080/wav/day_by_day.mp4"];
-//    }
-//    return _playerView;
-//}
-
 - (UIView *)statusView{
     if (!_statusView) {
         _statusView = [[UIView alloc] init];
@@ -130,29 +131,15 @@
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
         _coverImageView.userInteractionEnabled = YES;
-        _coverImageView.image = [UIImage imageNamed:@"placeHolder"];
+//        _coverImageView.image = [UIImage imageNamed:@"placeHolder"];
         _coverImageView.backgroundColor = [UIColor blackColor];
     }
     return _coverImageView;
 }
 
-//- (void)setUrl:(NSURL *)url{
-//    _url = url;
-//}
-
 #pragma mark private methods
-- (void)tap{
-//    [self manualPortrait];
-    NSLog(@"tap");
-}
-
-- (void)landClick{
-//    [self manualLandscape];
-    NSLog(@"landClick");
-}
-
-- (void)startPlay{
-    //获取播放器相对于 keyWindow 的坐标
+- (void)addPlayer{
+    //获取播放器相对于 superview 的坐标
     self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
     //添加黑色遮罩
     [self.superview addSubview:self.containerView];
@@ -162,7 +149,7 @@
     self.playerView = [[HZPlayerView alloc] init];
     [self.superview addSubview:self.playerView];
     self.playerView.frame = self.containerOriginRect;
-
+    
     @weakify(self);
     self.playerView.rotateToPortrait = ^{
         @strongify(self);
@@ -192,9 +179,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
+- (void)startPlay{
+    [self addPlayer];
+}
+
 #pragma mark orientation
 -(void)onDeviceOrientationChange
 {
+    if (!self.enableAutoRotate) {
+        return;
+    }
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     if (UIDeviceOrientationIsLandscape(orientation)) {
         [self rotateToLandScape:nil];
@@ -266,12 +260,14 @@
 - (void)play{
     if (self.playerView) {
         [self.playerView play];
+        self.playerView.playOrPauseBtn.selected = NO;
     }
 }
 
 - (void)pause{
     if (self.playerView) {
         [self.playerView pause];
+        self.playerView.playOrPauseBtn.selected = YES;
     }
 }
 
@@ -279,6 +275,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (self.playerView) {
         [self.playerView stop];
+        self.playerView = nil;
     }
+    [self.containerView removeFromSuperview];
+    self.containerView = nil;
 }
 @end

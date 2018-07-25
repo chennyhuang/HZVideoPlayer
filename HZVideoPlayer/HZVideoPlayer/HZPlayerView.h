@@ -35,7 +35,8 @@ typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
 @property (nonatomic,copy) void(^playEnd)(void);
 - (void)rotateBeginHideItems;
 - (void)rotateEndShowItems;
-
+/**播放或暂停按钮*/
+@property (nonatomic, strong) UIButton *playOrPauseBtn;
 /**播放*/
 - (void)play;
 /**暂停*/
