@@ -543,7 +543,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
 - (void)configureVolume {
     //通过设置 MPVolumeView 的frame,同时将其添加到试图上面，可以隐藏丑陋的系统音量HUD
     MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:CGRectMake(-1000, -1000, 100, 100)];
-    [self addSubview:volumeView];
+    [[UIApplication sharedApplication].keyWindow addSubview:volumeView];
     self.volumeViewSlider = nil;
     for (UIView *view in [volumeView subviews]){
         if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
@@ -792,6 +792,7 @@ static NSString *HZPlayerToolBarHideTimer = @"HZPlayerToolBarHideTimer";
             else if (self.player.currentItem.status == AVPlayerItemStatusFailed) {
     //            NSLog(@"播放失败");
                 self.playerState = HZPlayerStateFailed;
+                NSLog(@"%@",self.player.error);
             }
         } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
 

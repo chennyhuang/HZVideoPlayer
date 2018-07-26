@@ -19,9 +19,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
-        NSURL *url = [NSURL fileURLWithPath:filePath];
-//    NSURL *url = [NSURL fileURLWithPath:@"https://www.apple.com/105/media/us/iphone-x/2017/01df5b43-28e4-4848-bf20-490c34a926a7/films/feature/iphone-x-feature-tpl-cc-us-20170912_1280x720h.mp4"];
-//    NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
+    NSURL *url = [NSURL fileURLWithPath:filePath];
+
     self.playerView.url = url;
 
     [self.view addSubview:self.playerView];
