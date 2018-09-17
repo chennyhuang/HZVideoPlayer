@@ -19,7 +19,7 @@
 @property (nonatomic,strong) UIView *containerView;//放置播放界面，播放控制界面
 /**封面图*/
 @property (nonatomic, strong) UIImageView *coverImageView;
-@property (nonatomic,strong) HZPlayerView *playerView;
+
 @end
 
 @implementation HZVideoPlayer
@@ -36,10 +36,15 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self initFrame];
+}
+
 - (void)didMoveToSuperview{
     [super didMoveToSuperview];
     [self initFrame];
-    if (self.autoPlay) {
+    if (self.autoPlay && ([[self.videoUrl absoluteString] length] != 0)) {
         [self addPlayer];
     }
 }
@@ -53,6 +58,12 @@
     }
     return _playButton;
 }
+
+- (void)setEnableVolumLightProgress:(BOOL)enableVolumLightProgress{
+    _enableVolumLightProgress = enableVolumLightProgress;
+    _playerView.enableVolumLightProgress = _enableVolumLightProgress;
+}
+
 
 - (void)setPlayerStyle:(HZVideoPlayerStyle)playerStyle{
     _playerStyle = playerStyle;
@@ -86,12 +97,16 @@
     if (!_coverImageView) {
         _coverImageView = [[UIImageView alloc] init];
         _coverImageView.userInteractionEnabled = YES;
+        _coverImageView.contentMode = UIViewContentModeScaleAspectFit;
         _coverImageView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
     return _coverImageView;
 }
 
 - (void)setCoverImageUrl:(NSURL *)coverImageUrl{
+    if (!coverImageUrl || ([[coverImageUrl absoluteString] length] == 0)) {
+        return;
+    }
     _coverImageUrl = coverImageUrl;
     [self.coverImageView sd_setImageWithURL:coverImageUrl];
 }
@@ -99,11 +114,12 @@
 #pragma mark private methods
 - (void)initUI{
     //默认自动播放
-    self.autoPlay = YES;
+    self.autoPlay = NO;
     //默认可以横竖屏旋转
     self.enableAutoRotate = YES;
     //设置播放器默认样式
     self.playerStyle = HZVideoPlayerStyleInner;
+    self.enableVolumLightProgress = YES;
     
     self.originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
     self.backgroundColor = [UIColor clearColor];
@@ -124,32 +140,42 @@
     CGFloat playerH = self.frame.size.height;
     
     CGFloat statusViewH = 0;
-    if (self.playerStyle == HZVideoPlayerStyleTop) {
-        statusViewH = kNormalStatusBar_Height;
-    } else {
-        statusViewH = 0;
-    }
     self.frame = CGRectMake(playerX, playerY, playerW, playerH);
     self.selfOriginRect = self.frame;
     self.statusView.frame = CGRectMake(0, 0, playerW, statusViewH);
     self.coverImageView.frame = CGRectMake(0, statusViewH, playerW, playerH - statusViewH);
     self.playButton.frame = CGRectMake((self.coverImageView.frame.size.width - 100)*0.5, (self.coverImageView.frame.size.height - 100)*0.5, 100, 100);
-    if (_playerView) {
-        self.playerView.frame = CGRectMake(0, 0, self.containerOriginRect.size.width, self.containerOriginRect.size.height);
-    }
 }
 
 - (void)addPlayer{
     //获取播放器相对于 superview 的坐标
     self.containerOriginRect = [self convertRect:self.coverImageView.frame toView:self.superview];
+    NSLog(@"%@",NSStringFromCGRect(self.containerOriginRect));
     //添加黑色遮罩
-    [self.superview addSubview:self.containerView];
     self.containerView.frame = self.containerOriginRect;
+    self.containerView.hidden = NO;
+    [self.superview addSubview:self.containerView];
     
+    if (_playerView) {
+        [_playerView stop];
+        [_playerView removeFromSuperview];
+        _playerView = nil;
+    }
     //添加播放器
     self.playerView = [[HZPlayerView alloc] init];
-    [self.superview addSubview:self.playerView];
+    self.playerView.enableVolumLightProgress = self.enableVolumLightProgress;
+    self.playerView.hidden = YES;
     self.playerView.frame = self.containerOriginRect;
+    self.playerView.playPauseClick = self.playPauseClick;
+    [self.superview addSubview:self.playerView];
+    self.playerView.videoUrl = self.videoUrl;
+    [self pause];
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5/*延迟执行时间*/ * NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [self play];
+        self.playerView.hidden = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+    });
     
     @weakify(self);
     self.playerView.rotateToPortrait = ^{
@@ -176,8 +202,7 @@
         }];
     };
     
-    self.playerView.url = self.url;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDeviceOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
 }
 
 - (void)startPlay{
@@ -258,28 +283,33 @@
 }
 
 #pragma mark public methods
-- (void)play{
+- (void)pause{
     if (self.playerView) {
-        //只有按钮为播放状态的时候才能真正开始播放视频
-        if (!self.playerView.playOrPauseBtn.selected) {
-            [self.playerView play];
+        if (self.playerView.playerState == HZPlayerStateFailed) {
+            return;
         }
+        self.playerView.playOrPauseBtn.selected = YES;
+        [self.playerView pause];
     }
 }
 
-- (void)pause{
+- (void)play{
     if (self.playerView) {
-        [self.playerView pause];
+        if (self.playerView.playerState == HZPlayerStateFailed) {
+            return;
+        }
+        self.playerView.playOrPauseBtn.selected = NO;
+        [self.playerView play];
     }
 }
 
 - (void)stop{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    if (self.playerView) {
-        [self.playerView stop];
-        self.playerView = nil;
+    if (_playerView) {
+        [_playerView stop];
+        _playerView = nil;
     }
-    [self.containerView removeFromSuperview];
-    self.containerView = nil;
+    [_containerView removeFromSuperview];
+    _containerView = nil;
 }
 @end

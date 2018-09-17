@@ -29,7 +29,7 @@
     
     
     NSURL *url = [NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"];
-    self.playerView.url = url;
+    self.playerView.videoUrl = url;
     
     [self.scrollView addSubview:self.playerView];
 }

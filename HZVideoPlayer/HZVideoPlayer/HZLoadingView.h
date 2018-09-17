@@ -11,29 +11,39 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, HZLoadingType) {
-    HZLoadingTypeKeep = 0,
+    HZLoadingTypeKeep,
     HZLoadingTypeFadeOut,
 };
 
 @interface HZLoadingView : UIView
 
-/// default is HZLoadingType_Keep.
+/// default is HZLoadingTypeKeep.
 @property (nonatomic, assign) HZLoadingType animType;
 
 /// default is whiteColor.
 @property (nonatomic, strong, null_resettable) UIColor *lineColor;
 
-/// default is 1.
-@property (nonatomic, assign) double speed;
+/// Sets the line width of the spinner's circle.
+@property (nonatomic) CGFloat lineWidth;
+
+/// Sets whether the view is hidden when not animating.
+@property (nonatomic) BOOL hidesWhenStopped;
+
+/// Property indicating the duration of the animation, default is 1.5s.
+@property (nonatomic, readwrite) NSTimeInterval duration;
 
 /// anima state
 @property (nonatomic, assign, readonly, getter=isAnimating) BOOL animating;
 
-/// begin anim
-- (void)start;
+/**
+ *  Starts animation of the spinner.
+ */
+- (void)startAnimating;
 
-/// stop anim
-- (void)stop;
+/**
+ *  Stops animation of the spinnner.
+ */
+- (void)stopAnimating;
 
 @end
 

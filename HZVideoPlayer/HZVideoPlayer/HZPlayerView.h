@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+// 播放器的几种状态
+typedef NS_ENUM(NSInteger, HZPlayerState) {
+    HZPlayerStateFailed,     // 播放失败
+    HZPlayerStateBuffering,  // 缓冲中
+    HZPlayerStatePlaying,    // 播放中
+    HZPlayerStatePause,      //暂停中
+    HZPlayerStateDone        //播放完成
+};
 
 typedef NS_ENUM(NSInteger, HZPlayerScalingMode) {
     HZPlayerScalingModeNone = 0,       // No scaling.
@@ -25,14 +33,22 @@ typedef NS_ENUM(NSInteger, HZPlayerOrientation) {
 /**拉伸方式，默认全屏填充*/
 @property (nonatomic, assign) HZPlayerScalingMode scalingMode;
 /**视频url*/
-@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSURL *videoUrl;
 /**播放器当前的方向*/
 @property (nonatomic, assign) HZPlayerOrientation playerOrientation;
+/**播放器播放状态*/
+@property (nonatomic,assign) HZPlayerState playerState;
+/**是否能够响应横竖屏旋转,默认YES(播放过程中可动态设置)*/
+@property (nonatomic,assign) BOOL enableAutoRotate;
+
+@property (nonatomic,assign) BOOL enableVolumLightProgress;
 
 @property (nonatomic,copy) void(^rotateToPortrait)(void);
 @property (nonatomic,copy) void(^rotateToLandScape)(void);
 /**播放结束*/
 @property (nonatomic,copy) void(^playEnd)(void);
+/**播放暂停按钮点击回调*/
+@property (nonatomic,copy) void(^playPauseClick)(UIButton *button);
 - (void)rotateBeginHideItems;
 - (void)rotateEndShowItems;
 /**播放或暂停按钮*/

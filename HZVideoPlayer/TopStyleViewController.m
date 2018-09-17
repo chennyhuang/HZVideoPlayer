@@ -21,7 +21,7 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"rzjt" ofType:@"MP4"];
     NSURL *url = [NSURL fileURLWithPath:filePath];
 
-    self.playerView.url = url;
+    self.playerView.videoUrl = url;
 
     [self.view addSubview:self.playerView];
     NSLog(@"view -- %@",NSStringFromCGRect(self.view.frame));

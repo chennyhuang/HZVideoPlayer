@@ -8,11 +8,9 @@
 
 #import "HZLoadingView.h"
 
-@interface HZLoadingView ()<CAAnimationDelegate>
+@interface HZLoadingView ()
 
-@property (nonatomic, strong, readonly) CAGradientLayer *gradientLayer;
 @property (nonatomic, strong, readonly) CAShapeLayer *shapeLayer;
-@property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, assign, getter=isAnimating) BOOL animating;
 @property (nonatomic, assign) BOOL strokeShow;
 
@@ -21,120 +19,149 @@
 @implementation HZLoadingView
 
 @synthesize lineColor = _lineColor;
-@synthesize gradientLayer = _gradientLayer;
 @synthesize shapeLayer = _shapeLayer;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if ( !self ) return nil;
-    [self.layer addSublayer:self.gradientLayer];
-    self.gradientLayer.mask = self.shapeLayer;
-    self.alpha = 0.001;
-    self.speed = 1;
-    self.lineWidth = 2;
-    self.lineColor = [UIColor whiteColor];
+    if (self) {
+        [self initialize];
+    }
     return self;
 }
 
-- (CGSize)intrinsicContentSize {
-    return CGSizeMake(38, 38);
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initialize];
+    }
+    return self;
 }
 
-- (void)setLineWidth:(CGFloat)lineWidth {
-    _lineWidth = lineWidth;
-    _shapeLayer.lineWidth = _lineWidth;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self initialize];
 }
 
-- (void)setLineColor:(UIColor *)lineColor {
-    if ( !lineColor ) return;
-    _lineColor = lineColor;
-    _gradientLayer.colors = @[
-                              (id)[UIColor colorWithWhite:0.001 alpha:0.001].CGColor,
-                              (id)[lineColor colorWithAlphaComponent:0.25].CGColor,
-                              (id)lineColor.CGColor];
-}
-
-- (UIColor *)lineColor {
-    if ( _lineColor ) return _lineColor;
-    return [UIColor whiteColor];
-}
-
-- (void)start {
-    if ( _animating ) return;
-    _animating = YES;
-    if ( _animType == HZLoadingTypeFadeOut ) [self _strokeAnim_Show];
-    self.alpha = 1;
-    CABasicAnimation *rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnim.toValue = [NSNumber numberWithFloat:2 * M_PI];
-    rotationAnim.duration = _speed;
-    rotationAnim.repeatCount = CGFLOAT_MAX;
-    [_gradientLayer addAnimation:rotationAnim forKey:@"rotation"];
-}
-
-- (void)_strokeAnim_Show {
-    _strokeShow = YES;
-    CAKeyframeAnimation *strokeAnim = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
-    strokeAnim.values = @[@(_shapeLayer.strokeStart), @(_shapeLayer.strokeEnd)];
-    strokeAnim.duration = _speed * 1.5;
-    strokeAnim.delegate = self;
-    strokeAnim.removedOnCompletion = NO;
-    strokeAnim.fillMode = kCAFillModeForwards;
-    [_shapeLayer addAnimation:strokeAnim forKey:@"strokeAnim"];
-}
-
-- (void)_strokeAnim_Dismiss {
-    _strokeShow = NO;
-    CAKeyframeAnimation *strokeAnim = [CAKeyframeAnimation animationWithKeyPath:@"strokeEnd"];
-    strokeAnim.values = @[@(_shapeLayer.strokeEnd), @(_shapeLayer.strokeStart)];
-    strokeAnim.duration = _speed * 1.5;
-    strokeAnim.delegate = self;
-    strokeAnim.removedOnCompletion = NO;
-    strokeAnim.fillMode = kCAFillModeForwards;
-    [_shapeLayer addAnimation:strokeAnim forKey:@"strokeAnim"];
-}
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    if ( !_animating ) return;
-    if ( _strokeShow ) [self _strokeAnim_Dismiss];
-    else [self _strokeAnim_Show];
-}
-
-- (void)stop {
-    if ( !_animating ) return;
-    _animating = NO;
-    self.alpha = 0.001;
-    [_shapeLayer removeAllAnimations];
-    [_gradientLayer removeAllAnimations];
+- (void)initialize {
+    [self.layer addSublayer:self.shapeLayer];
+    self.duration = 1;
+    self.lineWidth = 1;
+    self.lineColor = [UIColor whiteColor];
+    self.userInteractionEnabled = NO;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat width = MIN(self.bounds.size.width, self.bounds.size.height);
     CGFloat height = width;
-    self.gradientLayer.bounds = CGRectMake(0, 0, width, height);
-    self.gradientLayer.position = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
-    self.shapeLayer.position = CGPointMake(_lineWidth, _lineWidth);
-    self.shapeLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(width * 0.5 - _lineWidth, height * 0.5 - _lineWidth) radius:(width - _lineWidth) * 0.5 startAngle:0 endAngle:M_PI * 2 clockwise:YES].CGPath;
+    self.shapeLayer.frame = CGRectMake(0, 0, width, height);
+    
+    CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    CGFloat radius = MIN(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2) - self.shapeLayer.lineWidth / 2;
+    CGFloat startAngle = (CGFloat)(0);
+    CGFloat endAngle = (CGFloat)(2*M_PI);
+    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center radius:radius startAngle:startAngle endAngle:endAngle clockwise:YES];
+    self.shapeLayer.path = path.CGPath;
 }
 
-- (CAGradientLayer *)gradientLayer {
-    if ( _gradientLayer ) return _gradientLayer;
-    _gradientLayer = [CAGradientLayer layer];
-    _gradientLayer.startPoint = CGPointMake(1, 1);
-    _gradientLayer.endPoint = CGPointMake(0, 0);
-    _gradientLayer.locations = @[@(0), @(0.3), @(0.5), @(1)];
-    return _gradientLayer;
+- (void)startAnimating {
+    if (self.animating) return;
+    self.animating = YES;
+    if (self.animType == HZLoadingTypeFadeOut) [self fadeOutShow];
+    CABasicAnimation *rotationAnim = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnim.toValue = [NSNumber numberWithFloat:2 * M_PI];
+    rotationAnim.duration = self.duration;
+    rotationAnim.repeatCount = CGFLOAT_MAX;
+    rotationAnim.removedOnCompletion = NO;
+    [self.shapeLayer addAnimation:rotationAnim forKey:@"rotation"];
+    if (self.hidesWhenStopped) {
+        self.hidden = NO;
+    }
 }
+
+- (void)stopAnimating {
+    if (!self.animating) return;
+    self.animating = NO;
+    [self.shapeLayer removeAllAnimations];
+    if (self.hidesWhenStopped) {
+        self.hidden = YES;
+    }
+}
+
+- (void)fadeOutShow {
+    CABasicAnimation *headAnimation = [CABasicAnimation animation];
+    headAnimation.keyPath = @"strokeStart";
+    headAnimation.duration = self.duration / 1.5f;
+    headAnimation.fromValue = @(0.f);
+    headAnimation.toValue = @(0.25f);
+    
+    CABasicAnimation *tailAnimation = [CABasicAnimation animation];
+    tailAnimation.keyPath = @"strokeEnd";
+    tailAnimation.duration = self.duration / 1.5f;
+    tailAnimation.fromValue = @(0.f);
+    tailAnimation.toValue = @(1.f);
+    
+    CABasicAnimation *endHeadAnimation = [CABasicAnimation animation];
+    endHeadAnimation.keyPath = @"strokeStart";
+    endHeadAnimation.beginTime = self.duration / 1.5f;
+    endHeadAnimation.duration = self.duration / 3.0f;
+    endHeadAnimation.fromValue = @(0.25f);
+    endHeadAnimation.toValue = @(1.f);
+    
+    CABasicAnimation *endTailAnimation = [CABasicAnimation animation];
+    endTailAnimation.keyPath = @"strokeEnd";
+    endTailAnimation.beginTime = self.duration / 1.5f;
+    endTailAnimation.duration = self.duration / 3.0f;
+    endTailAnimation.fromValue = @(1.f);
+    endTailAnimation.toValue = @(1.f);
+    
+    CAAnimationGroup *animations = [CAAnimationGroup animation];
+    [animations setDuration:self.duration];
+    [animations setAnimations:@[headAnimation, tailAnimation, endHeadAnimation, endTailAnimation]];
+    animations.repeatCount = INFINITY;
+    animations.removedOnCompletion = NO;
+    [self.shapeLayer addAnimation:animations forKey:@"strokeAnim"];
+    
+    if (self.hidesWhenStopped) {
+        self.hidden = NO;
+    }
+}
+
+#pragma mark - setter and getter
 
 - (CAShapeLayer *)shapeLayer {
-    if ( _shapeLayer ) return _shapeLayer;
-    _shapeLayer = [CAShapeLayer layer];
-    _shapeLayer.strokeColor = [UIColor blueColor].CGColor;
-    _shapeLayer.fillColor = [UIColor clearColor].CGColor;
-    _shapeLayer.strokeStart = 0.15;
-    _shapeLayer.strokeEnd = 0.8;
-    _shapeLayer.lineCap = @"round";
+    if (!_shapeLayer) {
+        _shapeLayer = [CAShapeLayer layer];
+        _shapeLayer.strokeColor = self.lineColor.CGColor;
+        _shapeLayer.fillColor = [UIColor clearColor].CGColor;
+        _shapeLayer.strokeStart = 0.1;
+        _shapeLayer.strokeEnd = 1;
+        _shapeLayer.lineCap = @"round";
+        _shapeLayer.anchorPoint = CGPointMake(0.5, 0.5);
+    }
     return _shapeLayer;
+}
+
+- (UIColor *)lineColor {
+    if (!_lineColor) {
+        return [UIColor whiteColor];
+    }
+    return _lineColor;
+}
+
+- (void)setLineWidth:(CGFloat)lineWidth {
+    _lineWidth = lineWidth;
+    self.shapeLayer.lineWidth = lineWidth;
+}
+
+- (void)setLineColor:(UIColor *)lineColor {
+    if (!lineColor) return;
+    _lineColor = lineColor;
+    self.shapeLayer.strokeColor = lineColor.CGColor;
+}
+
+- (void)setHidesWhenStopped:(BOOL)hidesWhenStopped {
+    _hidesWhenStopped = hidesWhenStopped;
+    self.hidden = !self.isAnimating && hidesWhenStopped;
 }
 
 @end
